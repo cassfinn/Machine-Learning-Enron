@@ -1,7 +1,5 @@
----
-title: "Enron Analysis with Machine Learning"
-output: html_notebook
----
+# Enron Analysis Using Machine Learning
+<br>
 
 ## Introduction
 
@@ -19,19 +17,19 @@ The data was converted from a pkl file to csv so that it can be manually reviewe
 
 ### Features Used and Selection Process###
 Computers do well with numbers so an emphasis was placed on the numeric fields. The financial properties of the data include:  
-            "bonus",
-            "deferral_payments",
-            "deferred_income",
-            "director_fees",
-            "exercised_stock_options",
-            "expenses",
-            "loan_advances",
-            "long_term_incentive",
-            "restricted_stock",
-            "restricted_stock_deferred",
-            "salary",
-            "total_payments",
-            "total_stock_value"  
+            "bonus",<br>
+            "deferral_payments",<br>
+            "deferred_income",<br>
+            "director_fees",<br>
+            "exercised_stock_options",<br>
+            "expenses",<br>
+            "loan_advances",<br>
+            "long_term_incentive",<br>
+            "restricted_stock",<br>
+            "restricted_stock_deferred",<br>
+            "salary",<br>
+            "total_payments",<br>
+            "total_stock_value"  <br>
             
 ### Features Added ###
 We are evaluating two things:  
@@ -42,69 +40,69 @@ I added a total income to see who may have gotten much more money than the other
 In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features.
 We used a total of 19 features, including: 
 
-The Number of NaN rows for each of the 36 features was: 
-{'bonus': 62,
- 'bonus_log': 62,
- 'deferral_payments': 105,
- 'deferral_payments_log': 106,
- 'deferred_income': 95,
- 'deferred_income_log': 143,
- 'director_fees': 127,
- 'director_fees_log': 127,
- 'email_address': 32,
- 'exercised_stock_options': 42,
- 'exercised_stock_options_log': 42,
- 'expenses': 49,
- 'expenses_log': 49,
- 'from_messages': 57,
- 'from_poi_to_this_person': 57,
- 'from_this_person_to_poi': 57,
- 'loan_advances': 140,
- 'loan_advances_log': 140,
- 'long_term_incentive': 78,
- 'long_term_incentive_log': 78,
- 'name': 0,
- 'other': 52,
- 'poi': 0,
- 'poi_ratio_messages': 57,
- 'restricted_stock': 34,
- 'restricted_stock_deferred': 126,
- 'restricted_stock_deferred_log': 141,
- 'restricted_stock_log': 35,
- 'salary': 49,
- 'salary_log': 49,
- 'shared_receipt_with_poi': 57,
- 'to_messages': 57,
- 'total_payments': 20,
- 'total_payments_log': 20,
- 'total_stock_value': 18,
- 'total_stock_value_log': 19
+The Number of NaN rows for each of the 36 features was: <br>
+{'bonus': 62,<br>
+ 'bonus_log': 62,<br>
+ 'deferral_payments': 105,<br>
+ 'deferral_payments_log': 106,<br>
+ 'deferred_income': 95,<br>
+ 'deferred_income_log': 143,<br>
+ 'director_fees': 127,<br>
+ 'director_fees_log': 127,<br>
+ 'email_address': 32,<br>
+ 'exercised_stock_options': 42,<br>
+ 'exercised_stock_options_log': 42,<br>
+ 'expenses': 49,<br>
+ 'expenses_log': 49,<br>
+ 'from_messages': 57,<br>
+ 'from_poi_to_this_person': 57,<br>
+ 'from_this_person_to_poi': 57,<br>
+ 'loan_advances': 140,<br>
+ 'loan_advances_log': 140,<br>
+ 'long_term_incentive': 78,<br>
+ 'long_term_incentive_log': 78,<br>
+ 'name': 0,<br>
+ 'other': 52,<br>
+ 'poi': 0,<br>
+ 'poi_ratio_messages': 57,<br>
+ 'restricted_stock': 34,<br>
+ 'restricted_stock_deferred': 126,<br>
+ 'restricted_stock_deferred_log': 141,<br>
+ 'restricted_stock_log': 35,<br>
+ 'salary': 49,<br>
+ 'salary_log': 49,<br>
+ 'shared_receipt_with_poi': 57,<br>
+ 'to_messages': 57,<br>
+ 'total_payments': 20,<br>
+ 'total_payments_log': 20,<br>
+ 'total_stock_value': 18,<br>
+ 'total_stock_value_log': 19<br>
  }
- 
- 
-A total of 19 features were selected using KBbestFeature:
-{'bonus',
- 'bonus_log'
- 'deferral_payments'
- 'deferred_income'
- 'director_fees,
- 'exercised_stock_options'
- 'exercised_stock_options_log'
- 'expenses'
- 'loan_advances'
- 'long_term_incentive'
- 'poi_ratio_messages'
- 'restricted_stock'
- 'restricted_stock_deferred'
- 'salary'
- 'salary_log'
- 'total_payments'
- 'total_payments_log'
- 'total_stock_value'
- 'total_stock_value_log'
- }
-
-Finally, the selected features were scaled with MinMaxScaler. 
+ <br>
+ <br>
+A total of 19 features were selected using KBbestFeature:<br>
+{'bonus',<br>
+ 'bonus_log'<br>
+ 'deferral_payments'<br>
+ 'deferred_income'<br>
+ 'director_fees,<br>
+ 'exercised_stock_options'<br>
+ 'exercised_stock_options_log'<br>
+ 'expenses'<br>
+ 'loan_advances'<br>
+ 'long_term_incentive'<br>
+ 'poi_ratio_messages'<br>
+ 'restricted_stock'<br>
+ 'restricted_stock_deferred'<br>
+ 'salary'<br>
+ 'salary_log'<br>
+ 'total_payments'<br>
+ 'total_payments_log'<br>
+ 'total_stock_value'<br>
+ 'total_stock_value_log'<br>
+ }<br>
+<br><br>
+Finally, the selected features were scaled with MinMaxScaler. <br><br><br>
 
 
 ## Parameter Tuning
@@ -112,7 +110,7 @@ When evaluating each model, the initial results did not meet the criteria of at 
 Pipeline combines model transformers and an estimator into a step process. Next, GridSearchCV was given a range of values for several parameters in order to search for the best estimator over the parameter grid with cross-validation. The output was a list of the best parameters to apply to the test data.
 
 Here are the best results after both automated and manual tuning:
-```{r}
+```{r someVar, echo=FALSE}
 algorithmResults <- read.csv(file="enronData.csv", header=TRUE, sep=",")
 
 df <- data.frame(algorithmResults)
