@@ -94,7 +94,7 @@ GaussianNB
 </tr>
 <tr>
 <td style="text-align:left;">
-with Pipeline
+GNB with Pipeline
 </td>
 <td style="text-align:right;">
 0.51160
@@ -140,7 +140,7 @@ Decision Tree
 </tr>
 <tr>
 <td style="text-align:left;">
-with Pipeline
+DT with Pipeline
 </td>
 <td style="text-align:right;">
 0.86050
@@ -301,7 +301,7 @@ Logistic Regression
 </tr>
 <tr>
 <td style="text-align:left;">
-with Pipeline
+LR - with Pipeline
 </td>
 <td style="text-align:right;">
 0.90700
@@ -324,7 +324,7 @@ with Pipeline
 </tr>
 <tr>
 <td style="text-align:left;font-weight: bold;color: blue;background-color: #EEEE00;">
-with best parameters:
+LR - with best parameters:
 </td>
 <td style="text-align:right;font-weight: bold;color: blue;background-color: #EEEE00;">
 0.75107
