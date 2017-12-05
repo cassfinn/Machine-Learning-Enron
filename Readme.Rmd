@@ -1,3 +1,10 @@
+---
+output:
+  html_document:
+    highlight: null
+    keep_md: yes
+  pdf_document: default
+---
 # Enron Analysis Using Machine Learning
 <br>
 
@@ -110,7 +117,8 @@ When evaluating each model, the initial results did not meet the criteria of at 
 Pipeline combines model transformers and an estimator into a step process. Next, GridSearchCV was given a range of values for several parameters in order to search for the best estimator over the parameter grid with cross-validation. The output was a list of the best parameters to apply to the test data.
 
 Here are the best results after both automated and manual tuning:
-```{r someVar, echo=FALSE}
+```{r results = 'asis', echo=FALSE}
+library(knitr)
 algorithmResults <- read.csv(file="enronData.csv", header=TRUE, sep=",")
 
 df <- data.frame(algorithmResults)
