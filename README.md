@@ -13,7 +13,7 @@ If a machine learning model can reliably identify corporate fraud it would be a 
 Data
 ----
 
-The data provided in this exercise includes 146 records of people who worked at Enron. Eleven people are already identified as Persons of Interest (POI) meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company. It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.
+The data provided in this exercise includes 146 records of people who worked at Enron. Seventeen people are already identified as Persons of Interest (POI) meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company. It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.
 
 ### Outliers
 
