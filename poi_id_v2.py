@@ -6,7 +6,7 @@ import csv
 import matplotlib.pyplot as plot
 import math
 
-import helpers
+import helpers_enron
 
 from numpy import log
 from numpy import sqrt
@@ -18,8 +18,6 @@ sys.path.append("../tools/")
 from sklearn import cross_validation
 from sklearn import svm
 from sklearn.model_selection import train_test_split
-from feature_format import featureFormat, targetFeatureSplit
-from tester import dump_classifier_and_data
 from sklearn.feature_selection import SelectKBest
 from sklearn import preprocessing
 from sklearn import linear_model, decomposition, datasets
@@ -30,6 +28,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
 from sklearn.ensemble import AdaBoostClassifier
+from feature_format import featureFormat, targetFeatureSplit
+from tester import dump_classifier_and_data
 
 
 from sklearn.linear_model import LogisticRegression
@@ -202,6 +202,7 @@ def try_classifier_GaussianNB_pipeline():
 
     print "GaussianNB with pipeline:"
     gnb = GaussianNB()
+    skb = SelectKBest(k = 'all')
     pipe_GuassianNB = Pipeline(steps=[('scaling',scaler),("SKB", skb), ("NaiveBayes", gnb)])
     pipe_GuassianNB.fit(features_train,labels_train)
 
@@ -685,10 +686,71 @@ def try_logistic_regression_tuned():
     return dict_results
 
 
+def run_all_classifiers():
+    test_results = []
+
+    dict = try_classifier_GaussianNB()
+    test_results.append(dict)
+
+    dict = try_classifier_GaussianNB_pipeline()
+    test_results.append(dict)
+
+    dict = try_classifier_Decision_Tree()
+    test_results.append(dict)
+
+    dict = try_classifier_Decision_Tree2()
+    test_results.append(dict)
+
+    dict = try_classifier_Decision_Tree_Pipeline()
+    test_results.append(dict)
+
+    dict = try_svm_classifier()
+    test_results.append(dict)
+
+    dict = try_svc_pipeline_gridsearchcv()
+    test_results.append(dict)
+
+    dict = try_svc_tuned()
+    test_results.append(dict)
+
+    dict = try_linear_svc_gridsearchcv()
+    test_results.append(dict)
+
+    dict = try_linear_svc()
+    test_results.append(dict)
+
+    dict = try_ada_boost_decision_tree()
+    test_results.append(dict)
+
+    dict = try_random_forest()
+    test_results.append(dict)
+
+    dict = try_k_neighbors()
+    test_results.append(dict)
+
+    dict = try_k_neighbors_pipeline()
+    test_results.append(dict)
+
+    dict = try_logistic_regression()
+    test_results.append(dict)
+
+    dict = try_logistic_regression_pipeline()
+    test_results.append(dict)
+
+    dict = clf_winner = try_logistic_regression_tuned()
+    test_results.append(dict)
+
+    return test_results
+
 
 ### Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
 	data_dict = pickle.load(data_file)
+
+
+### create a csv file to help manually review the original data_dict as a spreadsheet
+from helpers_enron import make_csv
+make_csv(data_dict)
 
 
 ### Task: Remove outliers
@@ -698,57 +760,92 @@ data_dict.pop('THE TRAVEL AGENCY IN THE PARK',0)
 data_dict.pop('LOCKHART EUGENE E',0)
 
 
-print_separator_line()
-
 ### Task: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
 
-### Task: Create new feature(s)
-### Store to my_dataset for easy export below.
+print_separator_line()
 
-# combine the poi, financial and email features
+### Combine poi, financial and email features
 features_list = poi + features_financial + features_email
 
-# add calculated columns (log of numeric features and ratio of emails for poi's)
-data_dict = add_features(data_dict, features_list)
-
-# recombine the existing and newly calculated fields
-features_list = poi + features_calculated + features_financial
-
-### create a csv file to help manually review the updated data_dict as a spreadsheet
-from helpers_enron import make_csv
-make_csv(data_dict)
-
-
-### get the best features
+### Get the best features
 features_list = set_kbest_features_list(data_dict, features_list)
 
-### store to my_dataset for easy export below
+### Store to my_dataset for easy export below
 my_dataset = data_dict
-
-
-print_separator_line()
 
 ### Extract features and labels from dataset for local testing
 data = featureFormat(my_dataset, features_list, sort_keys = True)
 labels, features = targetFeatureSplit(data)
 
+### Scale the data so that all data is on a level playing field
+scaler = preprocessing.MinMaxScaler()
+features = scaler.fit_transform(features)
+
+### Fit and transform
+pca = PCA()
+pca_transform = pca.fit_transform(features)
+
+### Split the data into training and test datasets
+features_train, features_test, labels_train, labels_test = train_test_split(features, labels, test_size=0.3, random_state=42)
+
+
+### Task: Try a variety of classifiers
+test_results_original = run_all_classifiers()
+print "test results original:"
+for dict in test_results_original:
+    print dict
+    print " "
+
+
+
+print_separator_line()
+
+### Task: Create new feature(s)
+### Store to my_dataset for easy export below.
+
+### Add calculated columns (log of numeric features and ratio of emails for poi's)
+data_dict = add_features(data_dict, features_list)
+
+### Recombine the existing and newly calculated fields
+features_list2 = poi + features_calculated + features_financial
+
+### Get the best features
+features_list2 = set_kbest_features_list(data_dict, features_list2)
+
+### Store to my_dataset for easy export below
+my_dataset = data_dict
+
+### Extract features and labels from dataset for local testing
+data = featureFormat(my_dataset, features_list2, sort_keys = True)
+labels, features = targetFeatureSplit(data)
 
 ### Scale the data so that all data is on a level playing field
 scaler = preprocessing.MinMaxScaler()
 features = scaler.fit_transform(features)
 
-### fit and transform
+### Fit and transform
 pca = PCA()
 pca_transform = pca.fit_transform(features)
 
-### split the data into training and test datasets
+### Split the data into training and test datasets
 features_train, features_test, labels_train, labels_test = train_test_split(features, labels, test_size=0.3, random_state=42)
 
-skb = SelectKBest(k = 'all')
 
-### Task: Try a varity of classifiers
+### create a csv file to help manually review the updated data_dict as a spreadsheet
+from helpers_enron import make_csv
+make_csv(data_dict)
+
+### Task: Try a variety of classifiers
+test_results_calculated = run_all_classifiers()
+print "test results calculated:"
+for dict in test_results_calculated:
+    print dict
+    print " "
+
+
+
 ### Please name your classifier clf for easy export below.
 ### Note that if you want to do PCA or other multi-stage operations,
 ### you'll need to use Pipelines. For more info:
@@ -765,60 +862,6 @@ skb = SelectKBest(k = 'all')
 
 
 ### Try a variety of classifiers.
-test_results = []
-
-dict = try_classifier_GaussianNB()
-test_results.append(dict)
-
-dict = try_classifier_GaussianNB_pipeline()
-test_results.append(dict)
-
-dict = try_classifier_Decision_Tree()
-test_results.append(dict)
-
-dict = try_classifier_Decision_Tree2()
-test_results.append(dict)
-
-dict = try_classifier_Decision_Tree_Pipeline()
-test_results.append(dict)
-
-dict = try_svm_classifier()
-test_results.append(dict)
-
-dict = try_svc_pipeline_gridsearchcv()
-test_results.append(dict)
-
-dict = try_svc_tuned()
-test_results.append(dict)
-
-dict = try_linear_svc_gridsearchcv()
-test_results.append(dict)
-
-dict = try_linear_svc()
-test_results.append(dict)
-
-dict = try_ada_boost_decision_tree()
-test_results.append(dict)
-
-dict = try_random_forest()
-test_results.append(dict)
-
-dict = try_k_neighbors()
-test_results.append(dict)
-
-dict = try_k_neighbors_pipeline()
-test_results.append(dict)
-
-dict = try_logistic_regression()
-test_results.append(dict)
-
-dict = try_logistic_regression_pipeline()
-test_results.append(dict)
-
-print "test results:"
-for dict in test_results:
-    print dict
-    print " "
 
 ### Here is the tuned classifier that generates the highest accuracy, precision and recall scores:
 clf_winner = try_logistic_regression_tuned()
