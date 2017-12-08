@@ -1,0 +1,21 @@
+|{'recall': 0.80000000000000004, 'classifier': 'GaussianNB', 'precision': 0.17391304347826086, 'accuracy': 0.53488372093023251}|
+|{'recall': 0.80000000000000004, 'classifier': 'GaussianNB with pipeline', 'precision': 0.16666666666666666, 'accuracy': 0.51162790697674421}|
+|{'recall': 0.20000000000000001, 'classifier': 'Decision Tree, gini', 'precision': 0.33333333333333331, 'accuracy': 0.86046511627906974}|
+|{'recall': 0.40000000000000002, 'classifier': 'Decision Tree, entropy', 'precision': 0.2857142857142857, 'accuracy': 0.81395348837209303}|
+|{'recall': 0.40000000000000002, 'classifier': 'Decision Tree, pipeline', 'precision': 0.40000000000000002, 'accuracy': 0.86046511627906974}|
+|{'recall': 0.0, 'classifier': 'svm.SVC', 'precision': 0.0, 'accuracy': 0.88372093023255816}|
+|{'recall': 0.40000000000000002, 'classifier': 'svc with pipeline', 'precision': 0.2857142857142857, 'accuracy': 0.81395348837209303}|
+|{'recall': 0.0, 'classifier': 'svc tuned', 'precision': 0.0, 'accuracy': 0.88372093023255816}|
+|{'recall': 0.0, 'classifier': 'linear SVC with GridSearchCV', 'precision': 0.0, 'accuracy': 0.88372093023255816}|
+|{'recall': 0.59999999999999998, 'classifier': 'linear svc, rbf', 'precision': 0.375, 'accuracy': 0.83720930232558144}|
+|{'recall': 0.20000000000000001, 'classifier': 'AdaBoost decision tree', 'precision': 0.16666666666666666, 'accuracy': 0.79069767441860461}|
+|{'recall': 0.20000000000000001, 'classifier': 'Random Forest', 'precision': 0.33333333333333331, 'accuracy': 0.86046511627906974}|
+|{'recall': 0.20000000000000001, 'classifier': 'K Nearest Neighbors', 'precision': 1.0, 'accuracy': 0.90697674418604646}|
+|{'recall': 0.20000000000000001, 'classifier': 'K nearest neighbors, pipeline', 'precision': 0.25, 'accuracy': 0.83720930232558144}|
+|{'recall': 0.20000000000000001, 'classifier': 'Logistic regression', 'precision': 1.0, 'accuracy': 0.90697674418604646}|
+|{'recall': 0.20000000000000001, 'classifier': 'Logistic regression, pca and pipeline', 'precision': 1.0, 'accuracy': 0.90697674418604646}|
+|Pipeline(memory=None,
+     steps=[('scaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('skb', SelectKBest(k='all', score_func=<function f_classif at 0x10f82c758>)), ('clf_winner', LogisticRegression(C=1, class_weight='balanced', dual=False,
+          fit_intercept=True, intercept_scaling=1, max_iter=100,
+          multi_class='ovr', n_jobs=1, penalty='l2', random_state=None,
+          solver='liblinear', tol=0.1, verbose=0, warm_start=False))])|

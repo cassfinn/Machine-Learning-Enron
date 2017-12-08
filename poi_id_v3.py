@@ -779,6 +779,26 @@ features_list = poi + features_financial + features_email
 ### Get the best features
 features_list = set_kbest_features_list(data_dict, features_list)
 
+### csv file is written in order to see results as spreadsheet
+output_file = "test_results_original.csv"
+
+
+"""
+### Uncomment these line to run tests with additional features: log of financial fields and POI email ratio
+
+### Add calculated columns (log of numeric features and ratio of emails for poi's)
+data_dict = add_features(data_dict, features_list)
+
+### Recombine the existing and newly calculated fields
+features_list = poi + features_calculated + features_financial
+
+### csv file is written in order to see results as spreadsheet
+output_file = "test_results_new_features.csv"
+
+"""
+
+
+
 ### Store to my_dataset for easy export below
 my_dataset = data_dict
 
@@ -803,19 +823,15 @@ features_train, features_test, labels_train, labels_test = train_test_split(feat
 
 ### Task: Try a variety of classifiers
 test_results_original = run_all_classifiers()
-print "test results original:"
+print "test results:"
 for dict in test_results_original:
     print dict
     print " "
 
-with open('testResultsOrig.csv', 'w') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerows(test_results_original)
-
-with open("testResultsOrig.csv", 'w') as outfile:
+with open(output_file, 'w') as outfile:
    csv_writer = csv.writer(outfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-   for k,v in test_results_original.items():
-       csv_writer.writerow([k] + v)
+   for k in test_results_original:
+       csv_writer.writerow([k])
 
 
 print_separator_line()
@@ -863,4 +879,3 @@ Testing on tester.py, results:
     Accuracy: 0.75107   Precision: 0.31012  Recall: 0.70800 F1: 0.43131 F2: 0.56343
     Total predictions: 15000    True positives: 1416    False positives: 3150   False negatives:  584   True negatives: 9850
 """
-
