@@ -29,7 +29,9 @@ We are evaluating two things:<br> 1 - The total amount of money received by cert
 
 I also added a total income to see who may have gotten much more money than the others. In addition, assuming that POIs are likely to have more contact with other POIs, a calculated field was added to get the ratio of communications between POIs. In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features.
 
-A total of 18 features were selected using KBbestFeature:<br> { exercised\_stock\_options<br> total\_stock\_value<br> bonus<br> salary<br> deferred\_income<br> long\_term\_incentive<br> restricted\_stock<br> total\_payments<br> shared\_receipt\_with\_poi<br> loan\_advances<br> expenses<br> from\_poi\_to\_this\_person<br> from\_this\_person\_to\_poi<br> director\_fees<br> to\_messages<br> deferral\_payments<br> from\_messages<br> restricted\_stock\_deferred<br> }<br> <br> 'poi' was added to the head of the feature\_list for a total of 19 features. <br><br> The Number of rows containing NaN values for each feature was: <br> {<br> bonus: 62<br> salary: 49<br> deferred\_income: 95<br> long\_term\_incentive: 78<br> restricted\_stock: 34<br> total\_payments: 20<br> shared\_receipt\_with\_poi: 57<br> loan\_advances: 140<br> expenses': 49<br> from\_poi\_to\_this\_person: 57<br> from\_this\_person\_to\_poi: 57<br> director\_fees: 127<br> to\_messages: 57<br> deferral\_payments: 105<br> from\_messages: 57<br> restricted\_stock\_deferred: 126<br> poi: 0<br> } <br> <br>
+A total of 18 features were selected using KBbestFeature. The features and their scores are as follows:<br> { exercised\_stock\_options: 24.8150797332<br> total\_stock\_value: 24.1828986786<br> bonus: 20.7922520472<br> salary: 18.2896840434<br> deferred\_income: 11.4584765793<br> long\_term\_incentive: 9.92218601319<br> restricted\_stock: 9.21281062198<br> total\_payments: 8.77277773009<br> shared\_receipt\_with\_poi: 8.58942073168<br> loan\_advances: 7.18405565829<br> expenses: 6.09417331064<br> from\_poi\_to\_this\_person: 5.24344971337<br> from\_this\_person\_to\_poi: 2.38261210823<br> director\_fees: 2.12632780201<br> to\_messages: 1.64634112944<br> deferral\_payments: 0.224611274736<br> from\_messages: 0.169700947622<br> restricted\_stock\_deferred: 0.0654996529099<br> }<br> <br>
+
+<br><br> 'poi' was added to the head of the feature\_list for a total of 19 features. <br><br> The Number of rows containing NaN values for each feature was: <br> {<br> bonus: 62<br> salary: 49<br> deferred\_income: 95<br> long\_term\_incentive: 78<br> restricted\_stock: 34<br> total\_payments: 20<br> shared\_receipt\_with\_poi: 57<br> loan\_advances: 140<br> expenses': 49<br> from\_poi\_to\_this\_person: 57<br> from\_this\_person\_to\_poi: 57<br> director\_fees: 127<br> to\_messages: 57<br> deferral\_payments: 105<br> from\_messages: 57<br> restricted\_stock\_deferred: 126<br> poi: 0<br> } <br> <br>
 
 Finally, the selected features were scaled with MinMaxScaler. MinMaxScaler converts the range of values to between 0 and 1 (or -1 to 1 if there are negative values) so that the numeric features can be compared on a level playing field. <br><br>
 
@@ -234,14 +236,13 @@ Logistic Regression
 Algorithm Selection
 -------------------
 
-A variety of algorithms were tried, including: GaussianNB, DecisionTree, SVM, SVC, LinearSVC, AdaBoost, RandomForest, KNeighbors, and Logistic Regression. Each of these algorithms was run and tuned with PCA and GridSearchCV as well as manually to get the best combination of parameters. Results of the tuning were measured by the accuracy, precision and recall scores. LogisticRegression turned out to have the highest accuracy, precision and recall rates when tested and is the algorithm selected. While some algorithms scored very well on accuracy and precision, recall was lower.
+A variety of algorithms were tried, including: GaussianNB, DecisionTree, SVM, SVC, LinearSVC, AdaBoost, RandomForest, KNeighbors, and Logistic Regression. Each of these algorithms was run and tuned with PCA and GridSearchCV as well as manually to get the best combination of parameters. Results of the tuning were measured by the accuracy, precision and recall scores. LogisticRegression turned out to have the highest accuracy, precision and recall rates when tested and is the algorithm selected. While some algorithms scored very well on accuracy and precision, recall was lower. <br><br>
 
-Validation
-----------
+Parameter Tuning
+----------------
 
-To validate the performance of each algorithm, accuracy, recall and precision scores were calculated for each. Each category is required to be above 0.3 in order for the algorithm to be considered acceptable. To ensure we trained our model correctly, the data was split into two categories: training and testing. When training the data, we used a subset of the overall data, selected an algorithm and tuned the features until the results were acceptable. We then test that same model on the subset of the overall data which was reserved for testing. If the results do not pass acceptance criteria on the test dataset then it means we have made a mistake. One common mistake is overfitting the data by applying too many features or tuning parameters so that they work well on the training data only.
-
-Our model was tested with a Stratified Shuffle Split cross validation iterator in tester.py in order to create random training test sets of the data. K-Fold cross validation takes all of the labeled data and divides it into batches. The model is then trained on K-1 batches, validated on the last batch and repeated for all permutations. Stratified K-Fold also looks at the relative distribution of the classes. If one class or label appears more than another, stratified k-fold will represent that imbalance when it creates batches.
+While many classifieres have default parameter values, the parameters can be tuned to improve system performance as evaluated by accuracy, precision and recall scores. There are several ways in which the optimal combination of parameters can be determined.
+<br><br> Grid Search Cross Validation (GridSearchCV) uses 3-fold KFold or StratifiedFold. It constructs a grid of all the combinations of parameters, tries out each comgination, and then returns a recommendation of the best combination. Pipeline is useful for chaining together tools into a workflow. <br><br> Principal Component Analysis (PCA) is a fast and flexible unsupervised method for dimensionality reduction in the data. PCA describes the relationship between the features and labels. It involves zeroing out one or more of the smallest principal components, resulting in a lower-dimensional projection of the data that preserves the maximal data variance. Transforming the data to a single dimension means that only the components of the data with the highest variance are included so that the most important relationships are kept. <br><br>
 
 #### The best results are from the Logistic Regression algorithm which was tuned and evaluated as follows:
 
@@ -255,12 +256,21 @@ Our model was tested with a Stratified Shuffle Split cross validation iterator i
 
 <br> clf\_winner = Pipeline(steps=\[("scaler", scaler),<br> ("skb", SelectKBest(k=19)),<br> ("clf\_winner", LogisticRegression(tol=0.1, C = 1\*\*19, class\_weight='balanced'))\])
 
+Validation
+----------
+
+To validate the performance of each algorithm, accuracy, recall and precision scores were calculated for each. Each category is required to be above 0.3 in order for the algorithm to be considered acceptable. To ensure we trained our model correctly, the data was split into two categories: training and testing. When training the data, we used a subset of the overall data, selected an algorithm and tuned the features until the results were acceptable. We then test that same model on the subset of the overall data which was reserved for testing. If the results do not pass acceptance criteria on the test dataset then it means we have made a mistake. One common mistake is overfitting the data by applying too many features or tuning parameters so that they work well on the training data only.
+
+Our model was tested with a Stratified Shuffle Split cross validation iterator in tester.py in order to create random training test sets of the data. K-Fold cross validation takes all of the labeled data and divides it into batches. The model is then trained on K-1 batches, validated on the last batch and repeated for all permutations. Stratified K-Fold also looks at the relative distribution of the classes. If one class or label appears more than another, stratified k-fold will represent that imbalance when it creates batches.
+
 Evaluation Metrics
 ------------------
 
-Accuracy, precision and recall were used as the primary evaluation metrics. Since the overall dataset was very small, it is not likely to be a good metric to use on its own. It could be a starting point when applied to a much larger dataset. Precision is defined as (\# of true positives)/(\# of true positives + \# of false positives). Recall is defined as: (\# of true positives)/(\# of true positive + \# of false negatives).
+Accuracy, precision and recall were used as the primary evaluation metrics. Since the overall dataset was very small, it is not likely to be a good metric to use on its own. It could be a starting point when applied to a much larger dataset. Precision is defined as (\# of true positives)/(\# of true positives + \# of false positives). Recall is defined as: (\# of true positives)/(\# of true positive + \# of false negatives). <br><br> These metrics are used to see if we are correctly identifying persons of interest. We want to minimize the number of false positives, i.e. the number of people who are incorrectly flagged as being involved in fraud.
+<br><br>
 
-These metrics are used to see if we are correctly identifying persons of interest. We want to minimize the number of false positives, i.e. the number of people who are incorrectly flagged as being involved in fraud.
+When measuring the performance of classifiers, we are considering accuracy, precision and recall. Accuracy is the number of correct predictions divided by the total numer of predictions. A confusion matrix shows a grid format of the number of predictions that fall into the categories of True Positive, False Positive, False Negative and True Negative. A perfect classifier would accurately predict True Positives and True Negatives.
+<br><br> Precision is the number of True Positives divided by the number of True Positives plus False Positives. A False Positive means that something was predicted as being true when it is actually false. A False Negative means that something was predicted as false when it was actually true. For example, when predicting if someone has cancer or not, we would want a classifier to accurately predict whether or not someone actually has cancer. A False Negative means that a person actually has cancer but the classifier didn't detect it. A False Positive means that the person actually does not have cancer but the classifier incorrectly detects it. <br><br> Recall is the number of True Positives divided by the number of True Positives plus the number of False Negatives. A low recall indicates many False Negatives. Neither precision nor recall tell the full story. An F1 Score can be used to get a balance between Recall and Precision scores. It is 2 \* ((precision \* recall) / (precision + recall)).
 
 References
 ----------
@@ -269,4 +279,6 @@ References
 
 <a href=http://scikit-learn.org/stable/>SciKit Learn - Machine Learning in Python</a>
 
-<br> <br> <br>
+<a href=https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html> In Depth: Principal Component Analysis</a>
+
+<a href=https://www.civisanalytics.com/blog/workflows-in-python-using-pipeline-and-gridsearchcv-for-more-compact-and-comprehensive-code/>Workflows in Python</a> <br> <br> <br>
