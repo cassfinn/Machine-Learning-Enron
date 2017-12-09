@@ -29,16 +29,14 @@ We are evaluating two things:<br> 1 - The total amount of money received by cert
 
 I also added a total income to see who may have gotten much more money than the others. In addition, assuming that POIs are likely to have more contact with other POIs, a calculated field was added to get the ratio of communications between POIs. In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features.
 
-A total of 18 features were selected using KBbestFeature:<br> { exercised\_stock\_options<br> total\_stock\_value<br> bonus<br> salary<br> deferred\_income<br> long\_term\_incentive<br> restricted\_stock<br> total\_payments<br> shared\_receipt\_with\_poi<br> loan\_advances<br> expenses<br> from\_poi\_to\_this\_person<br> from\_this\_person\_to\_poi<br> director\_fees<br> to\_messages<br> deferral\_payments<br> from\_messages<br> restricted\_stock\_deferred<br> }<br> <br> 'poi' was added to the head of the feature\_list for a total of 19 features. <br><br>
+A total of 18 features were selected using KBbestFeature:<br> { exercised\_stock\_options<br> total\_stock\_value<br> bonus<br> salary<br> deferred\_income<br> long\_term\_incentive<br> restricted\_stock<br> total\_payments<br> shared\_receipt\_with\_poi<br> loan\_advances<br> expenses<br> from\_poi\_to\_this\_person<br> from\_this\_person\_to\_poi<br> director\_fees<br> to\_messages<br> deferral\_payments<br> from\_messages<br> restricted\_stock\_deferred<br> }<br> <br> 'poi' was added to the head of the feature\_list for a total of 19 features. <br><br> <br> <br><br> The Number of rows containing NaN values for each feature was: <br> {<br> bonus: 62<br> salary: 49<br> deferred\_income: 95<br> long\_term\_incentive: 78<br> restricted\_stock: 34<br> total\_payments: 20<br> shared\_receipt\_with\_poi: 57<br> loan\_advances: 140<br> expenses': 49<br> from\_poi\_to\_this\_person: 57<br> from\_this\_person\_to\_poi: 57<br> director\_fees: 127<br> to\_messages: 57<br> deferral\_payments: 105<br> from\_messages: 57<br> restricted\_stock\_deferred: 126<br> poi: 0<br> } <br> <br>
 
-}<br> <br><br> The Number of NaN rows for each was: <br> {<br> bonus: 62<br> salary: 49<br> deferred\_income: 95<br> long\_term\_incentive: 78<br> restricted\_stock: 34<br> total\_payments: 20<br> shared\_receipt\_with\_poi: 57<br> loan\_advances: 140<br> expenses': 49<br> from\_poi\_to\_this\_person: 57<br> from\_this\_person\_to\_poi: 57<br> director\_fees: 127<br> to\_messages: 57<br> deferral\_payments: 105<br> from\_messages: 57<br> restricted\_stock\_deferred: 126<br> poi: 0<br> } <br> <br>
-
-Finally, the selected features were scaled with MinMaxScaler. <br><br><br>
+Finally, the selected features were scaled with MinMaxScaler. MinMaxScaler converts the range of values to between 0 and 1 (or -1 to 1 if there are negative values) so that the numeric features can be compared on a level playing field. <br><br><br>
 
 Parameter Tuning
 ----------------
 
-When evaluating each model, the initial results did not meet the criteria of at least 0.3 recall and precision. It was necessary to tune the parameters. I used SKLearn's Pipeline and GridSearchCV classes to automate parameter selection.
+When evaluating each model, the initial results did not meet the criteria of at least 0.3 recall and precision. It was necessary to tune the features and parameters. <br><br> SelectKBest was used to identify the optimal features in the original data. New calculated features were added for the log of the numeric features and a ratio of emails to and from POI's. <br><br> Using SKLearn's Pipeline and GridSearchCV classes parameter selection was further optimized.
 Pipeline combines model transformers and an estimator into a step process. Next, GridSearchCV was given a range of values for several parameters in order to search for the best estimator over the parameter grid with cross-validation. The output was a list of the best parameters to apply to the test data.
 
 Here are the best results after both automated and manual tuning:
@@ -236,14 +234,14 @@ Logistic Regression
 Algorithm Selection
 -------------------
 
-Several algorithms were tried, including: GaussianNB, DecisionTree, SVM, SVC, LinearSVC, AdaBoost, RandomForest, KNeighbors, and Logistic Regression. Each of these algorithms was run and tuned with PCA and GridSearchCV as well as manually to get the best combination of parameters. Results of the tuning were measured by the accuracy, precision and recall scores. LogisticRegression turned out to have the highest accuracy, precision and recall rates when tested and is the algorithm selected. While some algorithms scored very well on accuracy and precision, recall was lower.
+A variety of algorithms were tried, including: GaussianNB, DecisionTree, SVM, SVC, LinearSVC, AdaBoost, RandomForest, KNeighbors, and Logistic Regression. Each of these algorithms was run and tuned with PCA and GridSearchCV as well as manually to get the best combination of parameters. Results of the tuning were measured by the accuracy, precision and recall scores. LogisticRegression turned out to have the highest accuracy, precision and recall rates when tested and is the algorithm selected. While some algorithms scored very well on accuracy and precision, recall was lower.
 
 Validation
 ----------
 
 To validate the performance of each algorithm, accuracy, recall and precision scores were calculated for each. Each category is required to be above 0.3 in order for the algorithm to be considered acceptable. To ensure we trained our model correctly, the data was split into two categories: training and testing. When training the data, we used a subset of the overall data, selected an algorithm and tuned the features until the results were acceptable. We then test that same model on the subset of the overall data which was reserved for testing. If the results do not pass acceptance criteria on the test dataset then it means we have made a mistake. One common mistake is overfitting the data by applying too many features or tuning parameters so that they work well on the training data only.
 
-Our model was tested with a Stratified Shuffle Split cross validation iterator in tester.py in order to create random training test sets of the data.
+Our model was tested with a Stratified Shuffle Split cross validation iterator in tester.py in order to create random training test sets of the data. K-Fold cross validation takes all of the labeled data and divides it into batches. The model is then trained on K-1 batches, validated on the last batch and repeated for all permutations. Stratified K-Fold also looks at the relative distribution of the classes. If one class or label appears more than another, stratified k-fold will represent that imbalance when it creates batches.
 
 #### The best results are from the Logistic Regression algorithm which was tuned and evaluated as follows:
 
