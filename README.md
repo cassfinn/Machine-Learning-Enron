@@ -21,16 +21,26 @@ There were three records which appear to be outliers and which were removed from
 
 ### Features Used and Selection Process
 
-Computers do well with numbers so an emphasis was placed on the numeric fields. The financial properties of the data include: <br> "bonus",<br> "deferral\_payments",<br> "deferred\_income",<br> "director\_fees",<br> "exercised\_stock\_options",<br> "expenses",<br> "loan\_advances",<br> "long\_term\_incentive",<br> "restricted\_stock",<br> "restricted\_stock\_deferred",<br> "salary",<br> "total\_payments",<br> "total\_stock\_value" <br>
+Select_K_Best was used to determine the most effective features for getting higher scores. The resulting features are:
+<br>
+['poi', 'exercised_stock_options', 'total_stock_value', 'bonus', 'salary', 'deferred_income', 'long_term_incentive', 'restricted_stock', 'total_payments', 'shared_receipt_with_poi', 'loan_advances', 'expenses', 'from_poi_to_this_person', 'from_this_person_to_poi', 'director_fees', 'to_messages', 'deferral_payments', 'from_messages', 'restricted_stock_deferred']
+<br><br>
+The number of features was reduced to a total of 19 features, including POI.
+<br>
+<br>
+Computers do well with numbers so I ran a variation in which I added the log of the numeric fields as well as the ratio of emails between POIs to the data. The financial properties of the data include: <br> "bonus",<br> "deferral\_payments",<br> "deferred\_income",<br> "director\_fees",<br> "exercised\_stock\_options",<br> "expenses",<br> "loan\_advances",<br> "long\_term\_incentive",<br> "restricted\_stock",<br> "restricted\_stock\_deferred",<br> "salary",<br> "total\_payments",<br> "total\_stock\_value" <br>
 
 ### Features Added
 
 We are evaluating two things:
 1 - The total amount of money received by certain people vs the norm. POI are likely to have received much more money.<br> 2 - The amount of communication between POIs. The proportion of correspondence (number of emails from/to) POIs is likely to be higher than with non-POIs.
 
-I added a total income to see who may have gotten much more money than the others. In addition, assuming that POIs are likely to have more contact with other POIs, a calculated field was added to get the ratio of communications between POIs. In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features. We used a total of 19 features, including:
+I also added a total income to see who may have gotten much more money than the others. In addition, assuming that POIs are likely to have more contact with other POIs, a calculated field was added to get the ratio of communications between POIs. In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features. We used a total of 19 features, including:
 
 The Number of NaN rows for each of the 36 features was: <br> {'bonus': 62,<br> 'bonus\_log': 62,<br> 'deferral\_payments': 105,<br> 'deferral\_payments\_log': 106,<br> 'deferred\_income': 95,<br> 'deferred\_income\_log': 143,<br> 'director\_fees': 127,<br> 'director\_fees\_log': 127,<br> 'email\_address': 32,<br> 'exercised\_stock\_options': 42,<br> 'exercised\_stock\_options\_log': 42,<br> 'expenses': 49,<br> 'expenses\_log': 49,<br> 'from\_messages': 57,<br> 'from\_poi\_to\_this\_person': 57,<br> 'from\_this\_person\_to\_poi': 57,<br> 'loan\_advances': 140,<br> 'loan\_advances\_log': 140,<br> 'long\_term\_incentive': 78,<br> 'long\_term\_incentive\_log': 78,<br> 'name': 0,<br> 'other': 52,<br> 'poi': 0,<br> 'poi\_ratio\_messages': 57,<br> 'restricted\_stock': 34,<br> 'restricted\_stock\_deferred': 126,<br> 'restricted\_stock\_deferred\_log': 141,<br> 'restricted\_stock\_log': 35,<br> 'salary': 49,<br> 'salary\_log': 49,<br> 'shared\_receipt\_with\_poi': 57,<br> 'to\_messages': 57,<br> 'total\_payments': 20,<br> 'total\_payments\_log': 20,<br> 'total\_stock\_value': 18,<br> 'total\_stock\_value\_log': 19<br> } <br> <br> A total of 19 features were selected using KBbestFeature:<br> {'bonus',<br> 'bonus\_log'<br> 'deferral\_payments'<br> 'deferred\_income'<br> 'director\_fees,<br> 'exercised\_stock\_options'<br> 'exercised\_stock\_options\_log'<br> 'expenses'<br> 'loan\_advances'<br> 'long\_term\_incentive'<br> 'poi\_ratio\_messages'<br> 'restricted\_stock'<br> 'restricted\_stock\_deferred'<br> 'salary'<br> 'salary\_log'<br> 'total\_payments'<br> 'total\_payments\_log'<br> 'total\_stock\_value'<br> 'total\_stock\_value\_log'<br> }<br> <br><br> Finally, the selected features were scaled with MinMaxScaler. <br><br><br>
+
+After running the classifiers, I printed the results for both sets of features to files:  <a href>test_results_original.csv</a> and <a href>test_results_new_features.csv</a>. While I expected that the calculated fields would get better results, they actually did not.  The original features list, after running select_k_best and tuning parameters yielded higher scores in accuracy, precision and recall.
+<br> <br><br>
 
 Parameter Tuning
 ----------------
@@ -45,24 +55,9 @@ Algorithm Test Results
 </caption>
 <thead>
 <tr>
-<th style="text-align:left;">
-Classifier
-</th>
-<th style="text-align:right;">
-Accuracy.Train
-</th>
-<th style="text-align:right;">
-Precision.Train
-</th>
-<th style="text-align:right;">
-Recall.Train
-</th>
-<th style="text-align:left;">
-Accuracy.Test
-</th>
-<th style="text-align:left;">
-Precision.Test
-</th>
+<th style="text-align:left;">Classifier</th><th style="text-align:right;">Accuracy.Train</th>
+<th style="text-align:right;">Precision.Train</th><th style="text-align:right;">Recall.Train</th>
+<th style="text-align:left;">Accuracy.Test</th><th style="text-align:left;">Precision.Test</th>
 <th style="text-align:left;">
 Recall.Test
 </th>
