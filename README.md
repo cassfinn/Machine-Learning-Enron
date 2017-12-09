@@ -25,11 +25,16 @@ Features Used and Selection Process
 
 There were 36 features in the original data dictionary. Select\_K\_Best was used to determine the most effective features for getting higher scores. The resulting features are: <br> poi<br> exercised\_stock\_options<br> total\_stock\_value<br> bonus<br> salary<br> deferred\_income<br> long\_term\_incentive<br> restricted\_stock<br> total\_payments<br> shared\_receipt\_with\_poi<br> loan\_advances<br> expenses<br> from\_poi\_to\_this\_person<br> from\_this\_person\_to\_poi<br> director\_fees<br> to\_messages<br> deferral\_payments<br> from\_messages<br> restricted\_stock\_deferred<br>
 
-<br> The number of features was reduced to a total of 19 features, including POI. <br> <br> Computers do well with numbers so I also tried a variation in which I added the log of the numeric fields as well as the ratio of emails between POIs to the data. The financial properties of the data include: <br> bonus<br>deferra\_payments<br>deferred\_income<br>director\_fees<br>exercised\_stock\_options<br>expenses<br> loan\_advances<br> long\_term\_incentive<br>restricted\_stock<br>restricted\_stock\_deferred<br>salary<br>total\_payments<br>total\_stock\_value<br> <br> \#\# Features Added \#\# We are evaluating two things:<br> 1 - The total amount of money received by certain people vs the norm. POI are likely to have received much more money.<br> 2 - The amount of communication between POIs. The proportion of correspondence (number of emails from/to) POIs is likely to be higher than with non-POIs.
+<br> The number of features was reduced to a total of 19 features, including POI. <br> <br> Computers do well with numbers so I also tried a variation in which I added the log of the numeric fields as well as the ratio of emails between POIs to the data. The financial properties of the data include: <br> bonus<br>deferra\_payments<br>deferred\_income<br>director\_fees<br>exercised\_stock\_options<br>expenses<br> loan\_advances<br> long\_term\_incentive<br>restricted\_stock<br>restricted\_stock\_deferred<br>salary<br>total\_payments<br>total\_stock\_value<br> <br>
+
+Features Added
+--------------
+
+<br><br> We are evaluating two things:<br> 1 - The total amount of money received by certain people vs the norm. POI are likely to have received much more money.<br> 2 - The amount of communication between POIs. The proportion of correspondence (number of emails from/to) POIs is likely to be higher than with non-POIs.
 
 I also added a total income to see who may have gotten much more money than the others. In addition, assuming that POIs are likely to have more contact with other POIs, a calculated field was added to get the ratio of communications between POIs. In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features.
 
-A total of 18 features were selected using KBbestFeature. The features and their scores are as follows:<br> { exercised\_stock\_options: 24.8150797332<br> total\_stock\_value: 24.1828986786<br> bonus: 20.7922520472<br> salary: 18.2896840434<br> deferred\_income: 11.4584765793<br> long\_term\_incentive: 9.92218601319<br> restricted\_stock: 9.21281062198<br> total\_payments: 8.77277773009<br> shared\_receipt\_with\_poi: 8.58942073168<br> loan\_advances: 7.18405565829<br> expenses: 6.09417331064<br> from\_poi\_to\_this\_person: 5.24344971337<br> from\_this\_person\_to\_poi: 2.38261210823<br> director\_fees: 2.12632780201<br> to\_messages: 1.64634112944<br> deferral\_payments: 0.224611274736<br> from\_messages: 0.169700947622<br> restricted\_stock\_deferred: 0.0654996529099<br> }<br> <br>
+A total of 18 features were selected using KBbestFeature. The features and their scores are as follows:<br> { exercised\_stock\_options: 24.8150797332<br> total\_stock\_value: 24.1828986786<br> bonus: 20.7922520472<br> salary: 18.2896840434<br> deferred\_income: 11.4584765793<br> long\_term\_incentive: 9.92218601319<br> restricted\_stock: 9.21281062198<br> total\_payments: 8.77277773009<br> shared\_receipt\_with\_poi: 8.58942073168<br> loan\_advances: 7.18405565829<br> expenses: 6.09417331064<br> from\_poi\_to\_this\_person: 5.24344971337<br> from\_this\_person\_to\_poi: 2.38261210823<br> director\_fees: 2.12632780201<br> to\_messages: 1.64634112944<br> deferral\_payments: 0.224611274736<br> from\_messages: 0.169700947622<br> restricted\_stock\_deferred: 0.0654996529099<br> }<br>
 
 'poi' was added to the head of the feature\_list for a total of 19 features. <br><br> The Number of rows containing NaN values for each feature was: <br> bonus: 62<br> salary: 49<br> deferred\_income: 95<br> long\_term\_incentive: 78<br> restricted\_stock: 34<br> total\_payments: 20<br> shared\_receipt\_with\_poi: 57<br> loan\_advances: 140<br> expenses': 49<br> from\_poi\_to\_this\_person: 57<br> from\_this\_person\_to\_poi: 57<br> director\_fees: 127<br> to\_messages: 57<br> deferral\_payments: 105<br> from\_messages: 57<br> restricted\_stock\_deferred: 126<br> poi: 0<br> } <br>
 
@@ -233,10 +238,12 @@ Logistic Regression
 </tr>
 </tbody>
 </table>
+<br><br>
+
 Algorithm Selection
 -------------------
 
-A variety of algorithms were tried, including: GaussianNB, DecisionTree, SVM, SVC, LinearSVC, AdaBoost, RandomForest, KNeighbors, and Logistic Regression. Each of these algorithms was run and tuned with PCA and GridSearchCV as well as manually to get the best combination of parameters. Results of the tuning were measured by the accuracy, precision and recall scores. LogisticRegression turned out to have the highest accuracy, precision and recall rates when tested and is the algorithm selected. While some algorithms scored very well on accuracy and precision, recall was lower. <br><br>
+<br> A variety of algorithms were tried, including: GaussianNB, DecisionTree, SVM, SVC, LinearSVC, AdaBoost, RandomForest, KNeighbors, and Logistic Regression. Each of these algorithms was run and tuned with PCA and GridSearchCV as well as manually to get the best combination of parameters. Results of the tuning were measured by the accuracy, precision and recall scores. LogisticRegression turned out to have the highest accuracy, precision and recall rates when tested and is the algorithm selected. While some algorithms scored very well on accuracy and precision, recall was lower. <br><br>
 
 Parameter Tuning
 ----------------

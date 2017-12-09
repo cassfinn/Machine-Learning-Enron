@@ -9,7 +9,7 @@ output:
 # Enron Analysis Using Machine Learning
 <br>
 
-## Introduction
+## Introduction ##
 
 The objective of this project is to select a machine learning model which can be used to help identify people who are suspected of committing corporate fraud. In the case of Enron, company stock price fell from $90 to $1 per share due to financial fraud and corruption. In this exercise, we will use a subset of employee data which contains fincancial information and email communications for employees at Enron. Some records will be flagged as POI (person of interest) and the rest will be non-POI. Our goal is to select a machine learning model to train with the Enron sample data to look for patterns and accurately identify persons of interest.  Once the model is tuned and the best combination of features are selected, our model will be tested on a separate subset of the Enron data, i.e. the testing dataset, to validate that our model can be used to identify POIs in other suspected instances of corporate fraud. 
 
@@ -55,7 +55,10 @@ The number of features was reduced to a total of 19 features, including POI.
 Computers do well with numbers so I also tried a variation in which I added the log of the numeric fields as well as the ratio of emails between POIs to the data. The financial properties of the data include: <br> 
 bonus<br>deferra\_payments<br>deferred_income<br>director_fees<br>exercised_stock_options<br>expenses<br> loan_advances<br> long_term_incentive<br>restricted_stock<br>restricted_stock_deferred<br>salary<br>total_payments<br>total_stock_value<br>
 <br>
+
+
 ## Features Added ##
+<br><br>
 We are evaluating two things:<br>
 1 - The total amount of money received by certain people vs the norm. POI are likely to have received much more money.<br> 2 - The amount of communication between POIs. The proportion of correspondence (number of emails from/to) POIs is likely to be higher than with non-POIs.
 
@@ -83,7 +86,7 @@ deferral_payments: 0.224611274736<br>
 from_messages: 0.169700947622<br>
 restricted_stock_deferred: 0.0654996529099<br>
 }<br>
-<br>
+
 
 'poi' was added to the head of the feature_list for a total of 19 features.
 <br><br>
@@ -136,9 +139,11 @@ kable(df[], caption = "Algorithm Test Results") %>%
 
 ```
 
+<br><br>
 
 ## Algorithm Selection ##
 
+<br>
 A variety of algorithms were tried, including:  GaussianNB, DecisionTree, SVM, SVC, LinearSVC, AdaBoost, RandomForest, KNeighbors, and Logistic Regression.  Each of these algorithms was run and tuned with PCA and GridSearchCV as well as manually to get the best combination of parameters. Results of the tuning were measured by the accuracy, precision and recall scores.  LogisticRegression turned out to have the highest accuracy, precision and recall rates when tested and is the algorithm selected. While some algorithms scored very well on accuracy and precision, recall was lower. 
 <br><br>
 
