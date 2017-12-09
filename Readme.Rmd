@@ -1,0 +1,171 @@
+---
+title: "Enron Analysis Using Machine Learning"
+author: Claudia Cassidy
+date: December 4, 2017
+output:
+  md_document:
+    variant: markdown_github
+---
+# Enron Analysis Using Machine Learning
+<br>
+
+## Introduction
+
+The objective of this project is to select a machine learning model which can be used to help identify people who are suspected of committing corporate fraud. In the case of Enron, company stock price fell from $90 to $1 per share due to financial fraud and corruption. In this exercise, we will use a subset of employee data which contains fincancial information and email communications for employees at Enron. Some records will be flagged as POI (person of interest) and the rest will be non-POI. Our goal is to select a machine learning model to train with the Enron sample data to look for patterns and accurately identify persons of interest.  Once the model is tuned and the best combination of features are selected, our model will be tested on a separate subset of the Enron data, i.e. the testing dataset, to validate that our model can be used to identify POIs in other suspected instances of corporate fraud. 
+
+If a machine learning model can reliably identify corporate fraud it would be a valuable tool that could assist in criminal investigations. A machine learning model can use its computing power to scan millions of records for patterns of corruption much faster than a human could. It could also make objective and new categories and "follow the money" as it is laundered through various entities. 
+
+## Data
+The data provided in this exercise includes 146 records of people who worked at Enron. Eleven people are already identified as Persons of Interest (POI) meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company.  It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.
+
+### Outliers ###
+There were three records which appear to be outliers and which were removed from the dataset:
+Records containing "TOTAL" and "THE TRAVEL AGENCY IN THE PARK" as names did not appear to have any relevance to the data and were removed. A record for 'LOCKHART EUGENE E' contained 'NaN' for every data point and was also removed. 
+The data was converted from a pkl file to csv so that it can be manually reviewed for accuracy and cleaned if needed. A copy of the cleaned data can be viewed in a spreadsheet by opening file:  Data.csv.
+
+### Features Used and Selection Process###
+There were 36 features in the original data dictionary. 
+Select_K_Best was used to determine the most effective features for getting higher scores. The resulting features are:
+<br>
+['poi', 'exercised_stock_options', 'total_stock_value', 'bonus', 'salary', 'deferred_income', 'long_term_incentive', 'restricted_stock', 'total_payments', 'shared_receipt_with_poi', 'loan_advances', 'expenses', 'from_poi_to_this_person', 'from_this_person_to_poi', 'director_fees', 'to_messages', 'deferral_payments', 'from_messages', 'restricted_stock_deferred']
+<br><br>
+The number of features was reduced to a total of 19 features, including POI.
+<br>
+<br>
+Computers do well with numbers so I ran a variation in which I added the log of the numeric fields as well as the ratio of emails between POIs to the data. The financial properties of the data include: <br> "bonus",<br> "deferral\_payments",<br> "deferred\_income",<br> "director\_fees",<br> "exercised\_stock\_options",<br> "expenses",<br> "loan\_advances",<br> "long\_term\_incentive",<br> "restricted\_stock",<br> "restricted\_stock\_deferred",<br> "salary",<br> "total\_payments",<br> "total\_stock\_value" <br>
+            
+### Features Added ###
+We are evaluating two things:<br>
+1 - The total amount of money received by certain people vs the norm. POI are likely to have received much more money.<br> 2 - The amount of communication between POIs. The proportion of correspondence (number of emails from/to) POIs is likely to be higher than with non-POIs.
+
+I also added a total income to see who may have gotten much more money than the others. In addition, assuming that POIs are likely to have more contact with other POIs, a calculated field was added to get the ratio of communications between POIs. In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features. 
+
+
+A total of 18 features were selected using KBbestFeature:<br>
+{ 
+exercised_stock_options<br>
+total_stock_value<br> 
+bonus<br> 
+salary<br>
+deferred_income<br> 
+long_term_incentive<br> 
+restricted_stock<br> 
+total_payments<br>
+shared_receipt_with_poi<br> 
+loan_advances<br> 
+expenses<br> 
+from_poi_to_this_person<br> 
+from_this_person_to_poi<br> 
+director_fees<br> 
+to_messages<br> 
+deferral_payments<br> 
+from_messages<br> 
+restricted_stock_deferred<br>
+}<br>
+<br>
+'poi' was added to the head of the feature_list for a total of 19 features.
+<br><br>
+
+ }<br>
+<br><br>
+The Number of NaN rows for each was: <br>
+{<br>
+bonus: 62<br>
+salary: 49<br>
+deferred_income: 95<br>
+long_term_incentive: 78<br>
+restricted_stock: 34<br>
+total_payments: 20<br>
+shared_receipt_with_poi: 57<br>
+loan_advances: 140<br>
+expenses': 49<br>
+from_poi_to_this_person: 57<br>
+from_this_person_to_poi: 57<br>
+director_fees: 127<br>
+to_messages: 57<br>
+deferral_payments: 105<br>
+from_messages: 57<br>
+restricted_stock_deferred: 126<br>
+poi: 0<br>
+ }
+ <br>
+ <br>
+
+
+Finally, the selected features were scaled with MinMaxScaler. <br><br><br>
+
+
+## Parameter Tuning
+When evaluating each model, the initial results did not meet the criteria of at least 0.3 recall and precision.  It was necessary to tune the parameters. I used SKLearn's Pipeline and GridSearchCV classes to automate parameter selection.  
+Pipeline combines model transformers and an estimator into a step process. Next, GridSearchCV was given a range of values for several parameters in order to search for the best estimator over the parameter grid with cross-validation. The output was a list of the best parameters to apply to the test data.
+
+Here are the best results after both automated and manual tuning:
+```{r results = 'asis', echo=FALSE}
+library(knitr)
+algorithmResults <- read.csv(file="ResultsSummary.csv", header=TRUE, sep=",")
+
+df <- data.frame(algorithmResults)
+
+library(knitr)
+library(kableExtra)
+options(knitr.table.format = "html") 
+
+kable(df[], caption = "Algorithm Test Results") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive", position = "left", font_size=12)) 
+
+```
+
+
+## Algorithm Selection ##
+
+Several algorithms were tried, including:  GaussianNB, DecisionTree, SVM, SVC, LinearSVC, AdaBoost, RandomForest, KNeighbors, and Logistic Regression.  Each of these algorithms was run and tuned with PCA and GridSearchCV as well as manually to get the best combination of parameters. Results of the tuning were measured by the accuracy, precision and recall scores.  LogisticRegression turned out to have the highest accuracy, precision and recall rates when tested and is the algorithm selected. While some algorithms scored very well on accuracy and precision, recall was lower. 
+
+## Validation ##
+
+To validate the performance of each algorithm, accuracy, recall and precision scores were calculated for each. Each category is required to be above 0.3 in order for the algorithm to be considered acceptable. To ensure we trained our model correctly, the data was split into two categories:  training and testing. When training the data, we used a subset of the overall data, selected an algorithm and tuned the features until the results were acceptable. We then test that same model on the subset of the overall data which was reserved for testing. If the results do not pass acceptance criteria on the test dataset then it means we have made a mistake.  One common mistake is overfitting the data by applying too many features or tuning parameters so that they work well on the training data only. 
+
+Our model was tested with a Stratified Shuffle Split cross validation iterator in tester.py in order to create random training test sets of the data.  
+
+
+#### The best results are from the Logistic Regression algorithm which was tuned and evaluated as follows:####
+
+*from sklearn import linear_model, decomposition, datasets*<br>
+*from sklearn.pipeline import Pipeline*<br>
+*from sklearn.model_selection import GridSearchCV*<br>
+
+*logistic = linear_model.LogisticRegression()*<br>
+<br>
+*params_lr2 = {*<br>
++    "logistic__tol":[10**-10, 10**-20],<br>
++    "logistic__C":[0.05, 0.5, 1, 10, 10**2,10**5,10**10, 10**20],<br>
++    "logistic__class_weight":['auto'],<br>
++    "rbm__n_components":[2,3,4]<br>
+*}*
+
+*logistic.fit(features_train,labels_train)*
+
+*pred = logistic.predict(features_test)*<br>
+*accuracy = accuracy_score(labels_test, pred)*<br>
+*precision = precision_score(labels_test, pred)*<br>
+*recall = recall_score(labels_test, pred)*<br>
+
+<br>
+clf_winner = Pipeline(steps=[("scaler", scaler),<br>
+                      ("skb", SelectKBest(k=19)),<br>
+                      ("clf_winner", LogisticRegression(tol=0.1, C = 1**19, class_weight='balanced'))])
+
+
+## Evaluation Metrics
+Accuracy, precision and recall were used as the primary evaluation metrics. Since the overall dataset was very small, it is not likely to be a good metric to use on its own. It could be a starting point when applied to a much larger dataset. Precision is defined as (# of true positives)/(# of true positives + # of false positives). 
+Recall is defined as: (# of true positives)/(# of true positive + # of false negatives).
+
+These metrics are used to see if we are correctly identifying persons of interest. We want to minimize the number of false positives, i.e. the number of people who are incorrectly flagged as being involved in fraud.   
+
+## References
+<a href=https://www.udacity.com/course/intro-to-machine-learning--ud120>Udacity - Intro to Machine Learning</a>
+
+<a href=http://scikit-learn.org/stable/>SciKit Learn - Machine Learning in Python</a> 
+
+<br>
+<br>
+<br>

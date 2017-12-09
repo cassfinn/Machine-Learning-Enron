@@ -13,7 +13,7 @@ If a machine learning model can reliably identify corporate fraud it would be a 
 Data
 ----
 
-The data provided in this exercise includes 146 records of people who worked at Enron. Seventeen people are already identified as Persons of Interest (POI) meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company. It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.
+The data provided in this exercise includes 146 records of people who worked at Enron. Eleven people are already identified as Persons of Interest (POI) meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company. It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.
 
 ### Outliers
 
@@ -21,26 +21,19 @@ There were three records which appear to be outliers and which were removed from
 
 ### Features Used and Selection Process
 
-Select_K_Best was used to determine the most effective features for getting higher scores. The resulting features are:
-<br>
-['poi', 'exercised_stock_options', 'total_stock_value', 'bonus', 'salary', 'deferred_income', 'long_term_incentive', 'restricted_stock', 'total_payments', 'shared_receipt_with_poi', 'loan_advances', 'expenses', 'from_poi_to_this_person', 'from_this_person_to_poi', 'director_fees', 'to_messages', 'deferral_payments', 'from_messages', 'restricted_stock_deferred']
-<br><br>
-The number of features was reduced to a total of 19 features, including POI.
-<br>
-<br>
-Computers do well with numbers so I ran a variation in which I added the log of the numeric fields as well as the ratio of emails between POIs to the data. The financial properties of the data include: <br> "bonus",<br> "deferral\_payments",<br> "deferred\_income",<br> "director\_fees",<br> "exercised\_stock\_options",<br> "expenses",<br> "loan\_advances",<br> "long\_term\_incentive",<br> "restricted\_stock",<br> "restricted\_stock\_deferred",<br> "salary",<br> "total\_payments",<br> "total\_stock\_value" <br>
+There were 36 features in the original data dictionary. Select\_K\_Best was used to determine the most effective features for getting higher scores. The resulting features are: <br> \['poi', 'exercised\_stock\_options', 'total\_stock\_value', 'bonus', 'salary', 'deferred\_income', 'long\_term\_incentive', 'restricted\_stock', 'total\_payments', 'shared\_receipt\_with\_poi', 'loan\_advances', 'expenses', 'from\_poi\_to\_this\_person', 'from\_this\_person\_to\_poi', 'director\_fees', 'to\_messages', 'deferral\_payments', 'from\_messages', 'restricted\_stock\_deferred'\] <br><br> The number of features was reduced to a total of 19 features, including POI. <br> <br> Computers do well with numbers so I ran a variation in which I added the log of the numeric fields as well as the ratio of emails between POIs to the data. The financial properties of the data include: <br> "bonus",<br> "deferral\_payments",<br> "deferred\_income",<br> "director\_fees",<br> "exercised\_stock\_options",<br> "expenses",<br> "loan\_advances",<br> "long\_term\_incentive",<br> "restricted\_stock",<br> "restricted\_stock\_deferred",<br> "salary",<br> "total\_payments",<br> "total\_stock\_value" <br>
 
 ### Features Added
 
-We are evaluating two things:
-1 - The total amount of money received by certain people vs the norm. POI are likely to have received much more money.<br> 2 - The amount of communication between POIs. The proportion of correspondence (number of emails from/to) POIs is likely to be higher than with non-POIs.
+We are evaluating two things:<br> 1 - The total amount of money received by certain people vs the norm. POI are likely to have received much more money.<br> 2 - The amount of communication between POIs. The proportion of correspondence (number of emails from/to) POIs is likely to be higher than with non-POIs.
 
-I also added a total income to see who may have gotten much more money than the others. In addition, assuming that POIs are likely to have more contact with other POIs, a calculated field was added to get the ratio of communications between POIs. In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features. We used a total of 19 features, including:
+I also added a total income to see who may have gotten much more money than the others. In addition, assuming that POIs are likely to have more contact with other POIs, a calculated field was added to get the ratio of communications between POIs. In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features.
 
-The Number of NaN rows for each of the 36 features was: <br> {'bonus': 62,<br> 'bonus\_log': 62,<br> 'deferral\_payments': 105,<br> 'deferral\_payments\_log': 106,<br> 'deferred\_income': 95,<br> 'deferred\_income\_log': 143,<br> 'director\_fees': 127,<br> 'director\_fees\_log': 127,<br> 'email\_address': 32,<br> 'exercised\_stock\_options': 42,<br> 'exercised\_stock\_options\_log': 42,<br> 'expenses': 49,<br> 'expenses\_log': 49,<br> 'from\_messages': 57,<br> 'from\_poi\_to\_this\_person': 57,<br> 'from\_this\_person\_to\_poi': 57,<br> 'loan\_advances': 140,<br> 'loan\_advances\_log': 140,<br> 'long\_term\_incentive': 78,<br> 'long\_term\_incentive\_log': 78,<br> 'name': 0,<br> 'other': 52,<br> 'poi': 0,<br> 'poi\_ratio\_messages': 57,<br> 'restricted\_stock': 34,<br> 'restricted\_stock\_deferred': 126,<br> 'restricted\_stock\_deferred\_log': 141,<br> 'restricted\_stock\_log': 35,<br> 'salary': 49,<br> 'salary\_log': 49,<br> 'shared\_receipt\_with\_poi': 57,<br> 'to\_messages': 57,<br> 'total\_payments': 20,<br> 'total\_payments\_log': 20,<br> 'total\_stock\_value': 18,<br> 'total\_stock\_value\_log': 19<br> } <br> <br> A total of 19 features were selected using KBbestFeature:<br> {'bonus',<br> 'bonus\_log'<br> 'deferral\_payments'<br> 'deferred\_income'<br> 'director\_fees,<br> 'exercised\_stock\_options'<br> 'exercised\_stock\_options\_log'<br> 'expenses'<br> 'loan\_advances'<br> 'long\_term\_incentive'<br> 'poi\_ratio\_messages'<br> 'restricted\_stock'<br> 'restricted\_stock\_deferred'<br> 'salary'<br> 'salary\_log'<br> 'total\_payments'<br> 'total\_payments\_log'<br> 'total\_stock\_value'<br> 'total\_stock\_value\_log'<br> }<br> <br><br> Finally, the selected features were scaled with MinMaxScaler. <br><br><br>
+A total of 18 features were selected using KBbestFeature:<br> { exercised\_stock\_options<br> total\_stock\_value<br> bonus<br> salary<br> deferred\_income<br> long\_term\_incentive<br> restricted\_stock<br> total\_payments<br> shared\_receipt\_with\_poi<br> loan\_advances<br> expenses<br> from\_poi\_to\_this\_person<br> from\_this\_person\_to\_poi<br> director\_fees<br> to\_messages<br> deferral\_payments<br> from\_messages<br> restricted\_stock\_deferred<br> }<br> <br> 'poi' was added to the head of the feature\_list for a total of 19 features. <br><br>
 
-After running the classifiers, I printed the results for both sets of features to files:  <a href>test_results_original.csv</a> and <a href>test_results_new_features.csv</a>. While I expected that the calculated fields would get better results, they actually did not.  The original features list, after running select_k_best and tuning parameters yielded higher scores in accuracy, precision and recall.
-<br> <br><br>
+}<br> <br><br> The Number of NaN rows for each was: <br> {<br> bonus: 62<br> salary: 49<br> deferred\_income: 95<br> long\_term\_incentive: 78<br> restricted\_stock: 34<br> total\_payments: 20<br> shared\_receipt\_with\_poi: 57<br> loan\_advances: 140<br> expenses': 49<br> from\_poi\_to\_this\_person: 57<br> from\_this\_person\_to\_poi: 57<br> director\_fees: 127<br> to\_messages: 57<br> deferral\_payments: 105<br> from\_messages: 57<br> restricted\_stock\_deferred: 126<br> poi: 0<br> } <br> <br>
+
+Finally, the selected features were scaled with MinMaxScaler. <br><br><br>
 
 Parameter Tuning
 ----------------
@@ -55,154 +48,141 @@ Algorithm Test Results
 </caption>
 <thead>
 <tr>
-<th style="text-align:left;">Classifier</th><th style="text-align:right;">Accuracy.Train</th>
-<th style="text-align:right;">Precision.Train</th><th style="text-align:right;">Recall.Train</th>
-<th style="text-align:left;">Accuracy.Test</th><th style="text-align:left;">Precision.Test</th>
 <th style="text-align:left;">
-Recall.Test
+Features
+</th>
+<th style="text-align:left;">
+Classifier
+</th>
+<th style="text-align:right;">
+Accuracy
+</th>
+<th style="text-align:right;">
+Precision
+</th>
+<th style="text-align:right;">
+Recall
+</th>
+<th style="text-align:left;">
+Accuracy.Tester
+</th>
+<th style="text-align:left;">
+Precision.Tester
+</th>
+<th style="text-align:left;">
+Recall.Tester
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-GaussianNB
+Original Kbest
+</td>
+<td style="text-align:left;">
+Decision Tree with Pipeline
 </td>
 <td style="text-align:right;">
-0.53490
-</td>
-<td style="text-align:right;">
-0.1739
-</td>
-<td style="text-align:right;">
-0.800
-</td>
-<td style="text-align:left;">
-0.73373
-</td>
-<td style="text-align:left;">
-0.23914
-</td>
-<td style="text-align:left;">
-0.457
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-GNB with Pipeline
-</td>
-<td style="text-align:right;">
-0.51160
-</td>
-<td style="text-align:right;">
-0.1667
-</td>
-<td style="text-align:right;">
-0.800
-</td>
-<td style="text-align:left;">
-0.53533
-</td>
-<td style="text-align:left;">
-0.20024
-</td>
-<td style="text-align:left;">
-0.83
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Decision Tree
-</td>
-<td style="text-align:right;">
-0.86050
+0.81395
 </td>
 <td style="text-align:right;">
 0.3333
 </td>
 <td style="text-align:right;">
-0.200
+0.6
 </td>
 <td style="text-align:left;">
-0.79853
+0.8124
 </td>
 <td style="text-align:left;">
-0.24951
+0.27563
 </td>
 <td style="text-align:left;">
-0.2545
+0.25
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-DT with Pipeline
-</td>
-<td style="text-align:right;">
-0.86050
-</td>
-<td style="text-align:right;">
-0.4000
-</td>
-<td style="text-align:right;">
-0.400
+Original Kbest
 </td>
 <td style="text-align:left;">
-0.805
-</td>
-<td style="text-align:left;">
-0.23556
-</td>
-<td style="text-align:left;">
-0.206
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SVM
+Linear SVC
 </td>
 <td style="text-align:right;">
 0.88370
 </td>
 <td style="text-align:right;">
-0.0000
+0.5000
 </td>
 <td style="text-align:right;">
-0.000
+0.4
 </td>
 <td style="text-align:left;">
-divide by 0
+div/0
 </td>
 <td style="text-align:left;">
-divide by 0
+div/0
 </td>
 <td style="text-align:left;">
-divide by 0
+div/0
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-AdaBoost + DecisionTree
-</td>
-<td style="text-align:right;">
-0.81390
-</td>
-<td style="text-align:right;">
-0.2857
-</td>
-<td style="text-align:right;">
-0.400
+Original Kbest
 </td>
 <td style="text-align:left;">
-0.81447
+Logistic Regression with PCA
+</td>
+<td style="text-align:right;">
+0.90700
+</td>
+<td style="text-align:right;">
+0.2727
+</td>
+<td style="text-align:right;">
+0.6
 </td>
 <td style="text-align:left;">
-0.28826
+0.73827
 </td>
 <td style="text-align:left;">
-0.2665
+0.25608
+</td>
+<td style="text-align:left;">
+0.5055
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+New Kbest
+</td>
+<td style="text-align:left;">
+Decision Tree
+</td>
+<td style="text-align:right;">
+0.88370
+</td>
+<td style="text-align:right;">
+0.5000
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:left;">
+0.80547
+</td>
+<td style="text-align:left;">
+0.24155
+</td>
+<td style="text-align:left;">
+0.21450
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+New Kbest
+</td>
 <td style="text-align:left;">
 Linear SVC
 </td>
@@ -213,130 +193,41 @@ Linear SVC
 0.3750
 </td>
 <td style="text-align:right;">
-0.600
+0.6
 </td>
 <td style="text-align:left;">
-divide by 0
+div/0
 </td>
 <td style="text-align:left;">
-divide by 0
+div/0
 </td>
 <td style="text-align:left;">
-divide by 0
+div/0
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Random Forest
-</td>
-<td style="text-align:right;">
-0.88370
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.000
+New Kbest
 </td>
 <td style="text-align:left;">
-0.85807
-</td>
-<td style="text-align:left;">
-0.41699
-</td>
-<td style="text-align:left;">
-0.162
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KNeighbors
-</td>
-<td style="text-align:right;">
-0.90700
-</td>
-<td style="text-align:right;">
-1.0000
-</td>
-<td style="text-align:right;">
-0.200
-</td>
-<td style="text-align:left;">
-0.85867
-</td>
-<td style="text-align:left;">
-0.39547
-</td>
-<td style="text-align:left;">
-0.1135
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-weight: bold;color: blue;background-color: #EEEE00;">
 Logistic Regression
 </td>
-<td style="text-align:right;font-weight: bold;color: blue;background-color: #EEEE00;">
-0.83720
-</td>
-<td style="text-align:right;font-weight: bold;color: blue;background-color: #EEEE00;">
-0.3750
-</td>
-<td style="text-align:right;font-weight: bold;color: blue;background-color: #EEEE00;">
-0.600
-</td>
-<td style="text-align:left;font-weight: bold;color: blue;background-color: #EEEE00;">
-0.82773
-</td>
-<td style="text-align:left;font-weight: bold;color: blue;background-color: #EEEE00;">
-0.31635
-</td>
-<td style="text-align:left;font-weight: bold;color: blue;background-color: #EEEE00;">
-0.2515
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LR - with Pipeline
+<td style="text-align:right;">
+0.67440
 </td>
 <td style="text-align:right;">
-0.90700
+0.2000
 </td>
 <td style="text-align:right;">
-1.0000
-</td>
-<td style="text-align:right;">
-0.200
+0.6
 </td>
 <td style="text-align:left;">
-0.7746
-</td>
-<td style="text-align:left;">
-0.16946
-</td>
-<td style="text-align:left;">
-0.177
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-weight: bold;color: blue;background-color: #EEEE00;">
-LR - with best parameters:
-</td>
-<td style="text-align:right;font-weight: bold;color: blue;background-color: #EEEE00;">
 0.75107
 </td>
-<td style="text-align:right;font-weight: bold;color: blue;background-color: #EEEE00;">
-0.3101
-</td>
-<td style="text-align:right;font-weight: bold;color: blue;background-color: #EEEE00;">
-0.708
-</td>
-<td style="text-align:left;font-weight: bold;color: blue;background-color: #EEEE00;">
-0.75107
-</td>
-<td style="text-align:left;font-weight: bold;color: blue;background-color: #EEEE00;">
+<td style="text-align:left;">
 0.31012
 </td>
-<td style="text-align:left;font-weight: bold;color: blue;background-color: #EEEE00;">
+<td style="text-align:left;">
 0.708
 </td>
 </tr>
@@ -350,7 +241,9 @@ Several algorithms were tried, including: GaussianNB, DecisionTree, SVM, SVC, Li
 Validation
 ----------
 
-To validate the performance of each algorithm, accuracy, recall and precision scores were calculated for each. Each category is required to be above 0.3 in order for the algorithm to be considered acceptable. To ensure we trained our model correctly, the data was split into two categories: training and testing. When training the data, we used a subset of the overall data, selected an algorithm and tuned the features until the results were acceptable. We then test that same model on the subset of the overall data which was reserved for testing. If the results do not pass acceptance criteria on the test dataset then it means we have made a mistake. One common mistake is overfitting the data by applying too many features or tuning parameters so that they work well on the training data only. Our model was tested with a Stratified Shuffle Split cross validation iterator in tester.py in order to create random training test sets of the data.
+To validate the performance of each algorithm, accuracy, recall and precision scores were calculated for each. Each category is required to be above 0.3 in order for the algorithm to be considered acceptable. To ensure we trained our model correctly, the data was split into two categories: training and testing. When training the data, we used a subset of the overall data, selected an algorithm and tuned the features until the results were acceptable. We then test that same model on the subset of the overall data which was reserved for testing. If the results do not pass acceptance criteria on the test dataset then it means we have made a mistake. One common mistake is overfitting the data by applying too many features or tuning parameters so that they work well on the training data only.
+
+Our model was tested with a Stratified Shuffle Split cross validation iterator in tester.py in order to create random training test sets of the data.
 
 #### The best results are from the Logistic Regression algorithm which was tuned and evaluated as follows:
 
