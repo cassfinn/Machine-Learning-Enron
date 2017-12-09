@@ -15,26 +15,47 @@ The objective of this project is to select a machine learning model which can be
 
 If a machine learning model can reliably identify corporate fraud it would be a valuable tool that could assist in criminal investigations. A machine learning model can use its computing power to scan millions of records for patterns of corruption much faster than a human could. It could also make objective and new categories and "follow the money" as it is laundered through various entities. 
 
-## Data
+## Data ##
 The data provided in this exercise includes 146 records of people who worked at Enron. Eleven people are already identified as Persons of Interest (POI) meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company.  It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.
 
-### Outliers ###
+## Outliers ##
 There were three records which appear to be outliers and which were removed from the dataset:
 Records containing "TOTAL" and "THE TRAVEL AGENCY IN THE PARK" as names did not appear to have any relevance to the data and were removed. A record for 'LOCKHART EUGENE E' contained 'NaN' for every data point and was also removed. 
 The data was converted from a pkl file to csv so that it can be manually reviewed for accuracy and cleaned if needed. A copy of the cleaned data can be viewed in a spreadsheet by opening file:  Data.csv.
 
-### Features Used and Selection Process ###
+## Features Used and Selection Process ##
 There were 36 features in the original data dictionary. 
 Select_K_Best was used to determine the most effective features for getting higher scores. The resulting features are:
 <br>
-['poi', 'exercised_stock_options', 'total_stock_value', 'bonus', 'salary', 'deferred_income', 'long_term_incentive', 'restricted_stock', 'total_payments', 'shared_receipt_with_poi', 'loan_advances', 'expenses', 'from_poi_to_this_person', 'from_this_person_to_poi', 'director_fees', 'to_messages', 'deferral_payments', 'from_messages', 'restricted_stock_deferred']
-<br><br>
+poi<br>
+exercised_stock_options<br>
+total_stock_value<br>
+bonus<br>
+salary<br>
+deferred_income<br>
+long_term_incentive<br>
+restricted_stock<br>
+total_payments<br>
+shared_receipt_with_poi<br>
+loan_advances<br>
+expenses<br>
+from_poi_to_this_person<br>
+from_this_person_to_poi<br>
+director_fees<br>
+to_messages<br>
+deferral_payments<br>
+from_messages<br>
+restricted_stock_deferred<br>
+
+
+<br>
 The number of features was reduced to a total of 19 features, including POI.
 <br>
 <br>
-Computers do well with numbers so I ran a variation in which I added the log of the numeric fields as well as the ratio of emails between POIs to the data. The financial properties of the data include: <br> "bonus",<br> "deferral\_payments",<br> "deferred\_income",<br> "director\_fees",<br> "exercised\_stock\_options",<br> "expenses",<br> "loan\_advances",<br> "long\_term\_incentive",<br> "restricted\_stock",<br> "restricted\_stock\_deferred",<br> "salary",<br> "total\_payments",<br> "total\_stock\_value" <br>
-            
-### Features Added ###
+Computers do well with numbers so I also tried a variation in which I added the log of the numeric fields as well as the ratio of emails between POIs to the data. The financial properties of the data include: <br> 
+bonus<br>deferra\_payments<br>deferred_income<br>director_fees<br>exercised_stock_options<br>expenses<br> loan_advances<br> long_term_incentive<br>restricted_stock<br>restricted_stock_deferred<br>salary<br>total_payments<br>total_stock_value<br>
+<br>
+## Features Added ##
 We are evaluating two things:<br>
 1 - The total amount of money received by certain people vs the norm. POI are likely to have received much more money.<br> 2 - The amount of communication between POIs. The proportion of correspondence (number of emails from/to) POIs is likely to be higher than with non-POIs.
 
@@ -64,14 +85,9 @@ restricted_stock_deferred: 0.0654996529099<br>
 }<br>
 <br>
 
-
-
-
-<br><br>
 'poi' was added to the head of the feature_list for a total of 19 features.
 <br><br>
 The Number of rows containing NaN values for each feature was: <br>
-{<br>
 bonus: 62<br>
 salary: 49<br>
 deferred_income: 95<br>
@@ -90,7 +106,6 @@ from_messages: 57<br>
 restricted_stock_deferred: 126<br>
 poi: 0<br>
  }
- <br>
  <br>
 
 
@@ -138,7 +153,7 @@ Principal Component Analysis (PCA) is a fast and flexible unsupervised method fo
 <br><br>
 
 
-#### The best results are from the Logistic Regression algorithm which was tuned and evaluated as follows:####
+### The best results are from the Logistic Regression algorithm which was tuned and evaluated as follows: ###
 
 *from sklearn import linear_model, decomposition, datasets*<br>
 *from sklearn.pipeline import Pipeline*<br>
