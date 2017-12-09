@@ -23,7 +23,7 @@ There were three records which appear to be outliers and which were removed from
 Records containing "TOTAL" and "THE TRAVEL AGENCY IN THE PARK" as names did not appear to have any relevance to the data and were removed. A record for 'LOCKHART EUGENE E' contained 'NaN' for every data point and was also removed. 
 The data was converted from a pkl file to csv so that it can be manually reviewed for accuracy and cleaned if needed. A copy of the cleaned data can be viewed in a spreadsheet by opening file:  Data.csv.
 
-### Features Used and Selection Process###
+### Features Used and Selection Process ###
 There were 36 features in the original data dictionary. 
 Select_K_Best was used to determine the most effective features for getting higher scores. The resulting features are:
 <br>
@@ -65,8 +65,6 @@ restricted_stock_deferred<br>
 <br>
 'poi' was added to the head of the feature_list for a total of 19 features.
 <br><br>
-<br>
-<br><br>
 The Number of rows containing NaN values for each feature was: <br>
 {<br>
 bonus: 62<br>
@@ -91,10 +89,10 @@ poi: 0<br>
  <br>
 
 
-Finally, the selected features were scaled with MinMaxScaler. MinMaxScaler converts the range of values to between 0 and 1 (or -1 to 1 if there are negative values) so that the numeric features can be compared on a level playing field. <br><br><br>
+Finally, the selected features were scaled with MinMaxScaler. MinMaxScaler converts the range of values to between 0 and 1 (or -1 to 1 if there are negative values) so that the numeric features can be compared on a level playing field. <br><br>
 
 
-## Parameter Tuning
+## Parameter Tuning ##
 When evaluating each model, the initial results did not meet the criteria of at least 0.3 recall and precision.  It was necessary to tune the features and parameters.
 <br><br>
 SelectKBest was used to identify the optimal features in the original data. New calculated features were added for the log of the numeric features and a ratio of emails to and from POI's.
@@ -158,13 +156,13 @@ clf_winner = Pipeline(steps=[("scaler", scaler),<br>
                       ("clf_winner", LogisticRegression(tol=0.1, C = 1**19, class_weight='balanced'))])
 
 
-## Evaluation Metrics
+## Evaluation Metrics ##
 Accuracy, precision and recall were used as the primary evaluation metrics. Since the overall dataset was very small, it is not likely to be a good metric to use on its own. It could be a starting point when applied to a much larger dataset. Precision is defined as (# of true positives)/(# of true positives + # of false positives). 
 Recall is defined as: (# of true positives)/(# of true positive + # of false negatives).
 
 These metrics are used to see if we are correctly identifying persons of interest. We want to minimize the number of false positives, i.e. the number of people who are incorrectly flagged as being involved in fraud.   
 
-## References
+## References ##
 <a href=https://www.udacity.com/course/intro-to-machine-learning--ud120>Udacity - Intro to Machine Learning</a>
 
 <a href=http://scikit-learn.org/stable/>SciKit Learn - Machine Learning in Python</a> 
