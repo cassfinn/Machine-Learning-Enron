@@ -16,7 +16,7 @@ The objective of this project is to select a machine learning model which can be
 If a machine learning model can reliably identify corporate fraud it would be a valuable tool that could assist in criminal investigations. A machine learning model can use its computing power to scan millions of records for patterns of corruption much faster than a human could. It could also make objective and new categories and "follow the money" as it is laundered through various entities. 
 
 ## Data ##
-The data provided in this exercise includes 146 records of people who worked at Enron. Eleven people are already identified as Persons of Interest (POI) meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company.  It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.
+The data provided in this exercise includes 146 records of people who worked at Enron. #### Eleven people are already identified as Persons of Interest (POI) #### meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company.  It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.  
 
 ## Outliers ##
 There were three records which appear to be outliers and which were removed from the dataset:
@@ -58,14 +58,15 @@ bonus<br>deferra\_payments<br>deferred_income<br>director_fees<br>exercised_stoc
 
 
 ## Features Added ##
-<br><br>
+
+<br>
 We are evaluating two things:<br>
 1 - The total amount of money received by certain people vs the norm. POI are likely to have received much more money.<br> 2 - The amount of communication between POIs. The proportion of correspondence (number of emails from/to) POIs is likely to be higher than with non-POIs.
 
 I also added a total income to see who may have gotten much more money than the others. In addition, assuming that POIs are likely to have more contact with other POIs, a calculated field was added to get the ratio of communications between POIs. In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features. 
 
 
-A total of 18 features were selected using KBbestFeature. The features and their scores are as follows:<br>
+#### A total of 18 features were selected using KBbestFeature. The features and their scores are as follows: #### <br>
 { 
 exercised_stock_options: 24.8150797332<br>
 total_stock_value: 24.1828986786<br>
@@ -110,6 +111,17 @@ restricted_stock_deferred: 126<br>
 poi: 0<br>
  }
  <br>
+
+### There are 2 scenarios in the code to be run:  first with the original features and second with the newly added calculated features.  The new calculated features which were added are: <br>
+##### features_calculated: #####
+#####  total_payments_log #####
+#####  salary_log #####
+#####  bonus_log #####
+#####  total_stock_value_log #####
+#####  exercised_stock_options_log #####
+#####  poi_ratio_messages #####
+<br><br>
+
 
 
 Finally, the selected features were scaled with MinMaxScaler. MinMaxScaler converts the range of values to between 0 and 1 (or -1 to 1 if there are negative values) so that the numeric features can be compared on a level playing field. <br><br>
@@ -205,7 +217,15 @@ When measuring the performance of classifiers, we are considering accuracy, prec
 Precision is the number of True Positives divided by the number of True Positives plus False Positives.  A False Positive means that something was predicted as being true when it is actually false. A False Negative means that something was predicted as false when it was actually true.  For example, when predicting if someone has cancer or not, we would want a classifier to accurately predict whether or not someone actually has cancer. A False Negative means that a person actually has cancer but the classifier didn't detect it. A False Positive means that the person actually does not have cancer but the classifier incorrectly detects it.
 <br><br>
 Recall is the number of True Positives divided by the number of True Positives plus the number of False Negatives. A low recall indicates many False Negatives. Neither precision nor recall tell the full story. An F1 Score can be used to get a balance between Recall and Precision scores.  It is 2 * ((precision * recall) / (precision + recall)). 
+<br>
 
+## Performance Tuning ##
+We have to beware of overfitting in which a model is tuned with parameters which perform well on the training dataset, but when applied to the actual test data, they perform poorly. It means that the parameters have been overly customized for the training data. We have to be careful to find a balance in parameter tuning so that the models will generalize well with all data, not just the subset trained with. Another way to put this is signal vs. noise.  In predictive modeling, the signal is the true underlying pattern that we want to learn from the given data.  Noise occurs when irrelevant data or randomness is in a dataset. A well tuned machine learning algorithm will separate the signal from the noise. A model that has learned the noise instead of the signal is considered to be overfit.  <br>
+The opposite of overfitting is underfitting. Underfitting occurs when the model is too simple, for example if it does not have enough features or is regularzied too much. In order to minimize over or under fitting, the dataset is divided into separate training and test subsets.  If a model does much better on the training set than on the test set, then it means there may be overfitting.  <br>
+Cross validation is a useful way to prevent overfitting. Training data is used to generate multile mini train-test splits. These splits are used to tun the model. In standard k-fold cross validation, the algorithm on k-1 folds while using the remaining fold as the test set.
+<br>
+Training with more data can sometimes help algorithms to better detect the signal from the noise if the sample data size is larger and the data is clean. <br>
+Removing irrelevant features can also help to improve performance. 
 
 ## References ##
 <a href=https://www.udacity.com/course/intro-to-machine-learning--ud120>Udacity - Intro to Machine Learning</a>

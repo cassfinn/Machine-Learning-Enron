@@ -13,7 +13,7 @@ If a machine learning model can reliably identify corporate fraud it would be a 
 Data
 ----
 
-The data provided in this exercise includes 146 records of people who worked at Enron. Eleven people are already identified as Persons of Interest (POI) meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company. It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.
+The data provided in this exercise includes 146 records of people who worked at Enron. \#\#\#\# Eleven people are already identified as Persons of Interest (POI) \#\#\#\# meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company. It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.
 
 Outliers
 --------
@@ -30,13 +30,33 @@ There were 36 features in the original data dictionary. Select\_K\_Best was used
 Features Added
 --------------
 
-<br><br> We are evaluating two things:<br> 1 - The total amount of money received by certain people vs the norm. POI are likely to have received much more money.<br> 2 - The amount of communication between POIs. The proportion of correspondence (number of emails from/to) POIs is likely to be higher than with non-POIs.
+<br> We are evaluating two things:<br> 1 - The total amount of money received by certain people vs the norm. POI are likely to have received much more money.<br> 2 - The amount of communication between POIs. The proportion of correspondence (number of emails from/to) POIs is likely to be higher than with non-POIs.
 
 I also added a total income to see who may have gotten much more money than the others. In addition, assuming that POIs are likely to have more contact with other POIs, a calculated field was added to get the ratio of communications between POIs. In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features.
 
-A total of 18 features were selected using KBbestFeature. The features and their scores are as follows:<br> { exercised\_stock\_options: 24.8150797332<br> total\_stock\_value: 24.1828986786<br> bonus: 20.7922520472<br> salary: 18.2896840434<br> deferred\_income: 11.4584765793<br> long\_term\_incentive: 9.92218601319<br> restricted\_stock: 9.21281062198<br> total\_payments: 8.77277773009<br> shared\_receipt\_with\_poi: 8.58942073168<br> loan\_advances: 7.18405565829<br> expenses: 6.09417331064<br> from\_poi\_to\_this\_person: 5.24344971337<br> from\_this\_person\_to\_poi: 2.38261210823<br> director\_fees: 2.12632780201<br> to\_messages: 1.64634112944<br> deferral\_payments: 0.224611274736<br> from\_messages: 0.169700947622<br> restricted\_stock\_deferred: 0.0654996529099<br> }<br>
+#### A total of 18 features were selected using KBbestFeature. The features and their scores are as follows: \#\#\#\# <br>
+
+{ exercised\_stock\_options: 24.8150797332<br> total\_stock\_value: 24.1828986786<br> bonus: 20.7922520472<br> salary: 18.2896840434<br> deferred\_income: 11.4584765793<br> long\_term\_incentive: 9.92218601319<br> restricted\_stock: 9.21281062198<br> total\_payments: 8.77277773009<br> shared\_receipt\_with\_poi: 8.58942073168<br> loan\_advances: 7.18405565829<br> expenses: 6.09417331064<br> from\_poi\_to\_this\_person: 5.24344971337<br> from\_this\_person\_to\_poi: 2.38261210823<br> director\_fees: 2.12632780201<br> to\_messages: 1.64634112944<br> deferral\_payments: 0.224611274736<br> from\_messages: 0.169700947622<br> restricted\_stock\_deferred: 0.0654996529099<br> }<br>
 
 'poi' was added to the head of the feature\_list for a total of 19 features. <br><br> The Number of rows containing NaN values for each feature was: <br> bonus: 62<br> salary: 49<br> deferred\_income: 95<br> long\_term\_incentive: 78<br> restricted\_stock: 34<br> total\_payments: 20<br> shared\_receipt\_with\_poi: 57<br> loan\_advances: 140<br> expenses': 49<br> from\_poi\_to\_this\_person: 57<br> from\_this\_person\_to\_poi: 57<br> director\_fees: 127<br> to\_messages: 57<br> deferral\_payments: 105<br> from\_messages: 57<br> restricted\_stock\_deferred: 126<br> poi: 0<br> } <br>
+
+### There are 2 scenarios in the code to be run: first with the original features and second with the newly added calculated features. The new calculated features which were added are: <br>
+
+##### features\_calculated:
+
+##### total\_payments\_log
+
+##### salary\_log
+
+##### bonus\_log
+
+##### total\_stock\_value\_log
+
+##### exercised\_stock\_options\_log
+
+##### poi\_ratio\_messages
+
+<br><br>
 
 Finally, the selected features were scaled with MinMaxScaler. MinMaxScaler converts the range of values to between 0 and 1 (or -1 to 1 if there are negative values) so that the numeric features can be compared on a level playing field. <br><br>
 
@@ -277,7 +297,12 @@ Accuracy, precision and recall were used as the primary evaluation metrics. Sinc
 <br><br>
 
 When measuring the performance of classifiers, we are considering accuracy, precision and recall. Accuracy is the number of correct predictions divided by the total numer of predictions. A confusion matrix shows a grid format of the number of predictions that fall into the categories of True Positive, False Positive, False Negative and True Negative. A perfect classifier would accurately predict True Positives and True Negatives.
-<br><br> Precision is the number of True Positives divided by the number of True Positives plus False Positives. A False Positive means that something was predicted as being true when it is actually false. A False Negative means that something was predicted as false when it was actually true. For example, when predicting if someone has cancer or not, we would want a classifier to accurately predict whether or not someone actually has cancer. A False Negative means that a person actually has cancer but the classifier didn't detect it. A False Positive means that the person actually does not have cancer but the classifier incorrectly detects it. <br><br> Recall is the number of True Positives divided by the number of True Positives plus the number of False Negatives. A low recall indicates many False Negatives. Neither precision nor recall tell the full story. An F1 Score can be used to get a balance between Recall and Precision scores. It is 2 \* ((precision \* recall) / (precision + recall)).
+<br><br> Precision is the number of True Positives divided by the number of True Positives plus False Positives. A False Positive means that something was predicted as being true when it is actually false. A False Negative means that something was predicted as false when it was actually true. For example, when predicting if someone has cancer or not, we would want a classifier to accurately predict whether or not someone actually has cancer. A False Negative means that a person actually has cancer but the classifier didn't detect it. A False Positive means that the person actually does not have cancer but the classifier incorrectly detects it. <br><br> Recall is the number of True Positives divided by the number of True Positives plus the number of False Negatives. A low recall indicates many False Negatives. Neither precision nor recall tell the full story. An F1 Score can be used to get a balance between Recall and Precision scores. It is 2 \* ((precision \* recall) / (precision + recall)). <br>
+
+Performance Tuning
+------------------
+
+We have to beware of overfitting in which a model is tuned with parameters which perform well on the training dataset, but when applied to the actual test data, they perform poorly. It means that the parameters have been overly customized for the training data. We have to be careful to find a balance in parameter tuning so that the models will generalize well with all data, not just the subset trained with. Another way to put this is signal vs. noise. In predictive modeling, the signal is the true underlying pattern that we want to learn from the given data. Noise occurs when irrelevant data or randomness is in a dataset. A well tuned machine learning algorithm will separate the signal from the noise. A model that has learned the noise instead of the signal is considered to be overfit. <br> The opposite of overfitting is underfitting. Underfitting occurs when the model is too simple, for example if it does not have enough features or is regularzied too much. In order to minimize over or under fitting, the dataset is divided into separate training and test subsets. If a model does much better on the training set than on the test set, then it means there may be overfitting. <br> Cross validation is a useful way to prevent overfitting. Training data is used to generate multile mini train-test splits. These splits are used to tun the model. In standard k-fold cross validation, the algorithm on k-1 folds while using the remaining fold as the test set. <br> Training with more data can sometimes help algorithms to better detect the signal from the noise if the sample data size is larger and the data is clean. <br> Removing irrelevant features can also help to improve performance.
 
 References
 ----------
