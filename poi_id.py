@@ -710,7 +710,7 @@ def run_all_classifiers():
     test_results = []
     classifiers = []
 
-    dict_results, clf = try_classifier_GaussianNB()
+    dict, clf = try_classifier_GaussianNB()
     test_results.append(dict)
     classifiers.append(clf)
 
@@ -730,7 +730,7 @@ def run_all_classifiers():
     test_results.append(dict)
     classifiers.append(clf)
 
-    dict, clf = try_classifier_Decision_Tree_Pipeline_eval()
+    dict, clf = try_classifier_Decision_Tree_Pipeline()
     test_results.append(dict)
     classifiers.append(clf)
 
@@ -886,7 +886,7 @@ for dict in test_results:
 """
 with open(output_file, 'w') as outfile:
    csv_writer = csv.writer(outfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-   for k in test_results_original:
+   for k in test_results:
        csv_writer.writerow([k])
 
 
@@ -925,7 +925,7 @@ clf_winner = try_classifier_Decision_Tree2_eval()
 """
 
 
-clf_winner = try_logistic_regression_tuned_eval()
+dict, clf_winner = try_logistic_regression_tuned()
 #    Accuracy: 0.75107   Precision: 0.31012  Recall: 0.70800 F1: 0.43131 F2: 0.56343
 #    Total predictions: 15000    True positives: 1416    False positives: 3150   False negatives:  584   True negatives: 9850
 
