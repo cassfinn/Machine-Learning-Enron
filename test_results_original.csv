@@ -1,21 +1,22 @@
 |{'recall': 0.80000000000000004, 'classifier': 'GaussianNB', 'precision': 0.13793103448275862, 'accuracy': 0.39534883720930231}|
 |{'recall': 0.80000000000000004, 'classifier': 'GaussianNB with pipeline', 'precision': 0.13333333333333333, 'accuracy': 0.37209302325581395}|
-|{'recall': 0.0, 'classifier': 'Decision Tree, gini', 'precision': 0.0, 'accuracy': 0.83720930232558144}|
-|{'recall': 0.20000000000000001, 'classifier': 'Decision Tree, entropy', 'precision': 0.14285714285714285, 'accuracy': 0.76744186046511631}|
-|{'recall': 0.59999999999999998, 'classifier': 'Decision Tree, pipeline', 'precision': 0.375, 'accuracy': 0.83720930232558144}|
+|{'recall': 0.0, 'classifier': 'Decision Tree, gini', 'precision': 0.0, 'accuracy': 0.79069767441860461}|
+|{'recall': 0.40000000000000002, 'classifier': 'Decision Tree, entropy', 'precision': 0.25, 'accuracy': 0.79069767441860461}|
+|{'recall': 0.20000000000000001, 'classifier': 'Decision Tree, pipeline', 'precision': 0.16666666666666666, 'accuracy': 0.79069767441860461}|
+|Pipeline(memory=None,
+     steps=[('scaling', MinMaxScaler(copy=True, feature_range=(0, 1))), ('SKB', SelectKBest(k=15, score_func=<function f_classif at 0x10da8d758>)), ('DecisionTree', DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=None,
+            max_features=None, max_leaf_nodes=None,
+         ...      min_weight_fraction_leaf=0.0, presort=False, random_state=None,
+            splitter='best'))])|
 |{'recall': 0.0, 'classifier': 'svm.SVC', 'precision': 0.0, 'accuracy': 0.88372093023255816}|
 |{'recall': 0.20000000000000001, 'classifier': 'svc with pipeline', 'precision': 0.33333333333333331, 'accuracy': 0.86046511627906974}|
 |{'recall': 0.0, 'classifier': 'svc tuned', 'precision': 0.0, 'accuracy': 0.88372093023255816}|
 |{'recall': 0.20000000000000001, 'classifier': 'linear SVC with GridSearchCV', 'precision': 0.33333333333333331, 'accuracy': 0.86046511627906974}|
 |{'recall': 0.40000000000000002, 'classifier': 'linear svc, rbf', 'precision': 0.5, 'accuracy': 0.88372093023255816}|
-|{'recall': 0.0, 'classifier': 'AdaBoost decision tree', 'precision': 0.0, 'accuracy': 0.79069767441860461}|
-|{'recall': 0.20000000000000001, 'classifier': 'Random Forest', 'precision': 0.33333333333333331, 'accuracy': 0.86046511627906974}|
+|{'recall': 0.0, 'classifier': 'AdaBoost decision tree', 'precision': 0.0, 'accuracy': 0.81395348837209303}|
+|{'recall': 0.0, 'classifier': 'Random Forest', 'precision': 0.0, 'accuracy': 0.86046511627906974}|
 |{'recall': 0.0, 'classifier': 'K Nearest Neighbors', 'precision': 0.0, 'accuracy': 0.88372093023255816}|
 |{'recall': 0.0, 'classifier': 'K nearest neighbors, pipeline', 'precision': 0.0, 'accuracy': 0.83720930232558144}|
 |{'recall': 0.20000000000000001, 'classifier': 'Logistic regression', 'precision': 1.0, 'accuracy': 0.90697674418604646}|
 |{'recall': 0.0, 'classifier': 'Logistic regression, pca and pipeline', 'precision': 0.0, 'accuracy': 0.88372093023255816}|
-|Pipeline(memory=None,
-     steps=[('scaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('skb', SelectKBest(k='all', score_func=<function f_classif at 0x10e201758>)), ('clf_winner', LogisticRegression(C=1, class_weight='balanced', dual=False,
-          fit_intercept=True, intercept_scaling=1, max_iter=100,
-          multi_class='ovr', n_jobs=1, penalty='l2', random_state=None,
-          solver='liblinear', tol=0.1, verbose=0, warm_start=False))])|
+|{'recall': 0.59999999999999998, 'classifier': 'Logistic regression tuned', 'precision': 0.27272727272727271, 'accuracy': 0.76744186046511631}|
