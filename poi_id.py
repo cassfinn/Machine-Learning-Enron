@@ -823,7 +823,7 @@ output_file = "test_results_original.csv"
 
 
 
-"""
+
 ### ***  UNCOMMENT THESE LINES TO RERUN THE CLASSIFIERS WITH ADDED FEATURES ***
 ### Additional features: log of financial fields and POI email ratio
 ###
@@ -837,7 +837,6 @@ features_list = set_kbest_features_list(data_dict, features_list)
 
 ### csv file is written in order to see results as spreadsheet
 output_file = "test_results_new_features.csv"
-"""
 
 
 
@@ -893,19 +892,19 @@ with open(output_file, 'w') as outfile:
 print_separator_line()
 
 
+my_dataset = data_dict
 
 
 
-"""
 ### Evaluate Linear SVC against tester.py
-dict_results, clf_winner = try_linear_svc_eval()
+dict_results, clf_winner = try_linear_svc()
 dump_classifier_and_data(clf_winner, my_dataset, features_list)
 #Got a divide by zero when trying out: SVC(C=1000, cache_size=200, class_weight=None, coef0=0.0,
 #  decision_function_shape='ovr', degree=3, gamma='auto', kernel='rbf',
 #  max_iter=-1, probability=False, random_state=None, shrinking=True,
 #  tol=0.001, verbose=False)
 #Precision or recall may be undefined due to a lack of true positive predicitons.
-"""
+
 
 
 """
@@ -917,15 +916,15 @@ dump_classifier_and_data(clf_winner, my_dataset, features_list)
 """
 
 
-"""
+
 ### Evaluate Decision Tree 
-clf_winner = try_classifier_Decision_Tree2_eval()
+#dict, clf_winner = try_classifier_Decision_Tree2()
 #    Accuracy: 0.80547   Precision: 0.24155  Recall: 0.21450 F1: 0.22722 F2: 0.21941
 #    Total predictions: 15000    True positives:  429    False positives: 1347   False negatives: 1571   True negatives: 11653
-"""
 
 
-dict, clf_winner = try_logistic_regression_tuned()
+
+# dict, clf_winner = try_logistic_regression_tuned()
 #    Accuracy: 0.75107   Precision: 0.31012  Recall: 0.70800 F1: 0.43131 F2: 0.56343
 #    Total predictions: 15000    True positives: 1416    False positives: 3150   False negatives:  584   True negatives: 9850
 
@@ -937,7 +936,7 @@ dict, clf_winner = try_logistic_regression_tuned()
 ### http://scikit-learn.org/stable/modules/pipeline.html
 
 ### Here is the tuned classifier that generates the highest accuracy, precision and recall scores:
-#clf_winner = try_logistic_regression_tuned_eval()
+dict, clf_winner = try_logistic_regression_tuned()
 
 
 
