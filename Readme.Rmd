@@ -16,7 +16,7 @@ The objective of this project is to select a machine learning model which can be
 If a machine learning model can reliably identify corporate fraud it would be a valuable tool that could assist in criminal investigations. A machine learning model can use its computing power to scan millions of records for patterns of corruption much faster than a human could. It could also make objective and new categories and "follow the money" as it is laundered through various entities. 
 
 ## Data ##
-The data provided in this exercise includes 146 records of people who worked at Enron. #### Eleven people are already identified as Persons of Interest (POI) #### meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company.  It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.  
+The data provided in this exercise includes 146 records of people who worked at Enron. #### Eighteen people are already identified as Persons of Interest (POI) #### meaning they are suspected of committing corporate fraud. The data includes financial fields pertaining to each person's income from salary, stock and other sources of income from the company.  It also includes data about emails sent to/from POIs and non-POIs. The assumptions are that POI likely received a great deal more money than non-POIs and the POIs communicated more frequently with each other than with non-POIs.  
 
 ## Outliers ##
 There were three records which appear to be outliers and which were removed from the dataset:
@@ -159,10 +159,19 @@ kable(df[], caption = "Algorithm Test Results") %>%
 A variety of algorithms were tried, including:  GaussianNB, DecisionTree, SVM, SVC, LinearSVC, AdaBoost, RandomForest, KNeighbors, and Logistic Regression.  Each of these algorithms was run and tuned with PCA and GridSearchCV as well as manually to get the best combination of parameters. Results of the tuning were measured by the accuracy, precision and recall scores.  LogisticRegression turned out to have the highest accuracy, precision and recall rates when tested and is the algorithm selected. While some algorithms scored very well on accuracy and precision, recall was lower. 
 <br><br>
 
+## Algorithm Tuning ##
+
+
+When tuning an algorithm in machine learning, we aim to select the best parameters in order to optimize performance. In machine learning there are automated processes which select parameters and find the best combinations or parameters. Parameter tuning is important because in machine learning, ultimately, the goal is to have an algorithm that tunes itself.  
+<br>
+Tuning or hyperparameter optimization in machine learning involves choosing a set of optimal hyperparameters for a learning algorithm. The best combination of constraints, weights or learning rates needs to be found in order to generalize different data patterns in the training data so that the models perform with high scores when run in cross-validation against the test data. 
+<br>
+In this project, GridSearchCV has been used to tune the models and come up with the best combination of parameters. Other optimization methods include Bayesian optimization, Random Search, and Gradient-based optimization. Learning algorithms such as decision trees and random forests require the user to set parameters or constraints in the best way possible to get the best results in the training data. In this project, we define acceptable performance as having accuracy, precision and recall scores above 0.3.  
+
 
 
 ## Parameter Tuning ##
-While many classifieres have default parameter values, the parameters can be tuned to improve system performance as evaluated by accuracy, precision and recall scores. There are several ways in which the optimal combination of parameters can be determined.  
+While many classifiers have default parameter values, the parameters can be tuned to improve system performance as evaluated by accuracy, precision and recall scores. There are several ways in which the optimal combination of parameters can be determined.  
 <br><br>
 Grid Search Cross Validation (GridSearchCV) uses 3-fold KFold or StratifiedFold. It constructs a grid of all the combinations of parameters, tries out each comgination, and then returns a recommendation of the best combination. Pipeline is useful for chaining together tools into a workflow.
 <br><br>
@@ -206,18 +215,21 @@ Our model was tested with a Stratified Shuffle Split cross validation iterator i
 
 
 ## Evaluation Metrics ##
-Accuracy, precision and recall were used as the primary evaluation metrics. Since the overall dataset was very small, it is not likely to be a good metric to use on its own. It could be a starting point when applied to a much larger dataset. Precision is defined as (# of true positives)/(# of true positives + # of false positives). 
-Recall is defined as: (# of true positives)/(# of true positive + # of false negatives).
+Accuracy, precision and recall were used as the primary evaluation metrics. Since the overall dataset was very small, it is not likely to be a good metric to use on its own. It could be a starting point when applied to a much larger dataset.
 <br><br>
-These metrics are used to see if we are correctly identifying persons of interest. We want to minimize the number of false positives, i.e. the number of people who are incorrectly flagged as being involved in fraud.   
-<br><br>
-
-When measuring the performance of classifiers, we are considering accuracy, precision and recall.  Accuracy is the number of correct predictions divided by the total numer of predictions. A confusion matrix shows a grid format of the number of predictions that fall into the categories of True Positive, False Positive, False Negative and True Negative. A perfect classifier would accurately predict True Positives and True Negatives.  
-<br><br>
-Precision is the number of True Positives divided by the number of True Positives plus False Positives.  A False Positive means that something was predicted as being true when it is actually false. A False Negative means that something was predicted as false when it was actually true.  For example, when predicting if someone has cancer or not, we would want a classifier to accurately predict whether or not someone actually has cancer. A False Negative means that a person actually has cancer but the classifier didn't detect it. A False Positive means that the person actually does not have cancer but the classifier incorrectly detects it.
-<br><br>
-Recall is the number of True Positives divided by the number of True Positives plus the number of False Negatives. A low recall indicates many False Negatives. Neither precision nor recall tell the full story. An F1 Score can be used to get a balance between Recall and Precision scores.  It is 2 * ((precision * recall) / (precision + recall)). 
+##### Accuracy #####
+Accuracy is the number of correct predictions divided by the total numer of predictions. In this project, accuracy tells us how many POIs were classified correctly.
 <br>
+##### Precision #####
+In this project, a high precision score means that the algorithm correctly guesses that a person is a POI. This measures how certain we are that the person really is a POI. It correctly labels POIs (true positives) with a minimum of false positives. 
+<br><br>
+##### Recall #####
+Recall in this project measures the sensitivity of the model.  It tells us how many POIs which are correctly identified divided by the number of POIs that should have been identified. In other words, it is the ratio of the number of correctly identified POIs divided by all POIs. It is the probability that the algorithm will identify someone as a POI if they in fact are.  
+<br><br>
+Both precision and accuracy are important because a well performing algorithm must be able to correctly identify people who are actually POIs as POIs and to not incorrectly label people who are not POIs. In this project a precision and recall score above 0.3 is considered acceptable.
+
+<br>
+
 
 ## Performance Tuning ##
 We have to beware of overfitting in which a model is tuned with parameters which perform well on the training dataset, but when applied to the actual test data, they perform poorly. It means that the parameters have been overly customized for the training data. We have to be careful to find a balance in parameter tuning so that the models will generalize well with all data, not just the subset trained with. Another way to put this is signal vs. noise.  In predictive modeling, the signal is the true underlying pattern that we want to learn from the given data.  Noise occurs when irrelevant data or randomness is in a dataset. A well tuned machine learning algorithm will separate the signal from the noise. A model that has learned the noise instead of the signal is considered to be overfit.  <br>
