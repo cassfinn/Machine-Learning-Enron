@@ -66,8 +66,8 @@ We are evaluating two things:<br>
 I also added a total income to see who may have gotten much more money than the others. In addition, assuming that POIs are likely to have more contact with other POIs, a calculated field was added to get the ratio of communications between POIs. In order to get the ratio of emails on the same scale as the financial data, columns were added to the financial data which calculate the logarithm of the total payments, salary, bonus, total stock value and exercised stock options features. 
 
 
-#### A total of 18 features were selected using KBbestFeature. The features and their scores are as follows: #### <br>
-{ 
+#### A total of 18 features were selected using KBbestFeature. The features and their scores are as follows: <br>
+ 
 exercised_stock_options: 24.8150797332<br>
 total_stock_value: 24.1828986786<br>
 bonus: 20.7922520472<br>
@@ -86,7 +86,7 @@ to_messages: 1.64634112944<br>
 deferral_payments: 0.224611274736<br>
 from_messages: 0.169700947622<br>
 restricted_stock_deferred: 0.0654996529099<br>
-}<br>
+<br>
 
 
 'poi' was added to the head of the feature_list for a total of 19 features.
@@ -109,7 +109,7 @@ deferral_payments: 105<br>
 from_messages: 57<br>
 restricted_stock_deferred: 126<br>
 poi: 0<br>
- }
+
  <br>
 
 ### There are 2 scenarios in the code to be run:  first with the original features and second with the newly added calculated features.  The new calculated features which were added are: <br>
