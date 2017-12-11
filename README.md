@@ -305,7 +305,8 @@ Accuracy, precision and recall were used as the primary evaluation metrics. Sinc
 
 Accuracy is the number of correct predictions divided by the total numer of predictions. In this project, accuracy tells us how many POIs were classified correctly. <br>
 
-In this project, a high precision score means that the algorithm correctly guesses that a person is a POI. This measures how certain we are that the person really is a POI. It correctly labels POIs (true positives) with a minimum of false positives. <br><br> Recall in this project measures the sensitivity of the model. It tells us how many POIs which are correctly identified divided by the number of POIs that should have been identified. In other words, it is the ratio of the number of correctly identified POIs divided by all POIs. It is the probability that the algorithm will identify someone as a POI if they in fact are.
+In this project, a high precision score means that the algorithm correctly guesses that a person is a POI. This measures how certain we are that the person really is a POI. It correctly labels POIs (true positives) with a minimum of false positives. precision = True Positives / (True Positives + False Positives) <br><br> Recall in this project measures the sensitivity of the model. It tells us how many POIs which are correctly identified divided by the number of POIs that should have been identified. In other words, it is the ratio of the number of correctly identified POIs divided by all POIs. It is the probability that the algorithm will identify someone as a POI if they in fact are. recall = True Positives / (True Positives + False Negatives)
+
 <br><br> Both precision and accuracy are important because a well performing algorithm must be able to correctly identify people who are actually POIs as POIs and to not incorrectly label people who are not POIs. In this project a precision and recall score above 0.3 is considered acceptable.
 
 <br>
